@@ -1,63 +1,133 @@
-<?php
-/**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.View.Layouts
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
-
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
-$cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
-?>
-<!DOCTYPE html>
+<!--A Design by W3layouts
+Author: W3layout
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
 <html>
 <head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $cakeDescription ?>:
-		<?php echo $this->fetch('title'); ?>
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
-
-		echo $this->Html->css('cake.generic');
-
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
-	?>
+<title>The Classic Website Template | Home :: w3layouts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- google fonts-->
+<link href='http://fonts.googleapis.com/css?family=Merriweather+Sans' rel='stylesheet' type='text/css'>
+<!-- end google fonts -->
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 <body>
-	<div id="container">
-		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+<!-- start header -->
+<div class="header_bg">
+<div class="wrap">
+<div class="wrapper">
+	<div class="header">
+		<div class="logo">
+			<a href="index.html"><img src="images/logo.png" alt=""/> </a>
 		</div>
-		<div id="content">
-
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $this->fetch('content'); ?>
+		<div class="cssmenu">
+			<ul>
+			  	<li ><a class="home" href="index.html"></a></li>
+				<li class="active"><a href="about.html">About</a></li>
+				<li><a href="blog.html">Blog</a></li>
+				<li><a href="inspiration.html">Inspiration</a></li>
+				<li><a href="contact.html">Contact Us</a></li>
+				<div class="clear"></div>
+			 </ul>
 		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
-				);
-			?>
-			<p>
-				<?php echo $cakeVersion; ?>
-			</p>
+		<div class="clear"></div>
+	</div>
+</div>
+</div>
+</div>
+<!-- start sub-header -->
+<div class="header_sub_bg">
+<div class="wrap">
+<div class="wrapper">
+		<div class="hdr-nav">
+  			<ul class="sub_nav">
+                <li><a href="#">Business</a></li>
+                <li><a href="#">Mobile</a></li>
+                <li class="hide"><a href="#">Social Media</a></li>
+                <li class="active"><a href="#">Technology</a></li>
+            </ul>
+		</div>
+		<div class="clear"></div>
+</div>
+</div>
+</div>
+<!-- start main -->
+<div class="wrap">
+<div class="wrapper">
+	<div class="main">	
+		<div class="content">
+		    <h2 class="style list"><a href="#">Our favourite Task Management App! </a></h2>
+			<h3 class="style">posted on march 28, 2013</h3>
+			<div class="list_img">
+				<img src="images/pic1.jpg" alt="" align=""/>	
+			</div>		
+			<p class="para"> All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+			<a href="blog.html" class="btn">Read More</a>
+		</div>
+		<div class="content">
+			<h2 class="style list"><a href="#">Year in review: Our favourites Apps from 2012</a></h2>
+			<h3 class="style">posted on march 3, 2013</h3>
+			<div class="list_img">
+				<img src="images/pic2.jpg" alt="" align=""/>	
+			</div>		
+			<p class="para"> All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+			<a href="blog.html" class="btn">Read More</a>
+		</div>
+		<div class="content">
+			<h2 class="style list"><a href="#">marketing tips & tricks from the top brands</a></h2>
+			<h3 class="style">posted on December 2, 2013</h3>
+			<div class="list_img">
+				<img src="images/pic3.jpg" alt="" align=""/>	
+			</div>		
+			<p class="para"> All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
+			<a href="blog.html" class="btn">Read More</a>
+			<div class="pagination">
+				 <ul>
+				    <li class="left_arrow" ><a href="#"></a></li>
+				    <li><a href="#">1</a></li>
+				    <li><a href="#">2</a></li>
+				    <li><a href="#">3</a></li>
+				    <li><a href="#">4</a></li>
+				    <li><a href="#">5</a></li>
+				    <li><a href="#">6</a></li>
+				    <li class="right_arrow"><a href="#"></a></li>
+				    <div class="clear"></div>
+				  </ul>
+			</div>
 		</div>
 	</div>
-	<?php echo $this->element('sql_dump'); ?>
+</div>
+</div>
+<!-- start footer -->
+<div class="wrap">
+	<div class="footer">
+		<div class="foot_nav">	
+				 <ul>
+				    <li><a href="index.html">home</a></li>
+				    <li><a href="about.html">about</a></li>
+				    <li><a href="blog.html">Blog</a></li>
+				    <li><a href="contact.html">Contact</a></li>
+				    <div class="clear"></div>
+				 </ul>
+		</div>
+		<div class="foot_soc">
+				<ul>
+					<li><a class="icon1" href="#"></a></li>
+					<li><a  class="icon2" href="#"></a></li>
+					<li><a  class="icon3" href="#"></a></li>
+					<li><a  class="icon4" href="#"></a></li>
+					<div class="clear"></div>
+				</ul>
+		</div>
+		<div class="copy">	
+			<p class="w3-link">Copyright © 2012 Designer First. All Rights Reserved. Template by&nbsp; <a href="http://w3layouts.com/"> W3Layouts</a></p>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
 </body>
 </html>
