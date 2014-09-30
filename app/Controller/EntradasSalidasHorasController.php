@@ -55,8 +55,8 @@ class EntradasSalidasHorasController extends AppController {
 				$this->Session->setFlash(__('The entradas salidas hora could not be saved. Please, try again.'));
 			}
 		}
-		$descriptions = $this->EntradasSalidasHora->Description->find('list');
-		$this->set(compact('descriptions'));
+		$torniquetes = $this->EntradasSalidasHora->Torniquete->find('list');
+		$this->set(compact('torniquetes'));
 	}
 
 /**
@@ -81,8 +81,8 @@ class EntradasSalidasHorasController extends AppController {
 			$options = array('conditions' => array('EntradasSalidasHora.' . $this->EntradasSalidasHora->primaryKey => $id));
 			$this->request->data = $this->EntradasSalidasHora->find('first', $options);
 		}
-		$descriptions = $this->EntradasSalidasHora->Description->find('list');
-		$this->set(compact('descriptions'));
+		$torniquetes = $this->EntradasSalidasHora->Torniquete->find('list');
+		$this->set(compact('torniquetes'));
 	}
 
 /**

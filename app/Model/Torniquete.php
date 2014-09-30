@@ -8,6 +8,7 @@ App::uses('AppModel', 'Model');
  * @property Group $Group
  * @property EntradasSalidasAno $EntradasSalidasAno
  * @property EntradasSalidasDia $EntradasSalidasDia
+ * @property EntradasSalidasHora $EntradasSalidasHora
  * @property EntradasSalidasMese $EntradasSalidasMese
  * @property EntradasSalidasMinuto $EntradasSalidasMinuto
  */
@@ -66,6 +67,19 @@ class Torniquete extends AppModel {
 		),
 		'EntradasSalidasDia' => array(
 			'className' => 'EntradasSalidasDia',
+			'foreignKey' => 'torniquete_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		),
+		'EntradasSalidasHora' => array(
+			'className' => 'EntradasSalidasHora',
 			'foreignKey' => 'torniquete_id',
 			'dependent' => false,
 			'conditions' => '',

@@ -12,7 +12,7 @@ class EntradasSalidasHoraFixture extends CakeTestFixture {
  */
 	public $fields = array(
 		'id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'unsigned' => true, 'key' => 'primary'),
-		'description_id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'unsigned' => true),
+		'torniquete_id' => array('type' => 'biginteger', 'null' => false, 'default' => null, 'unsigned' => true),
 		'fecha' => array('type' => 'date', 'null' => true, 'default' => null),
 		'hora' => array('type' => 'time', 'null' => true, 'default' => null),
 		'entradas' => array('type' => 'biginteger', 'null' => true, 'default' => null, 'unsigned' => false),
@@ -32,9 +32,9 @@ class EntradasSalidasHoraFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => '',
-			'description_id' => '',
+			'torniquete_id' => '',
 			'fecha' => '2014-09-30',
-			'hora' => '19:59:18',
+			'hora' => '20:39:31',
 			'entradas' => '',
 			'salidas' => ''
 		),

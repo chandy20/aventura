@@ -14,7 +14,13 @@ class EntradasSalidasAnoTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'app.entradas_salidas_ano',
-		'app.torniquete'
+		'app.torniquete',
+		'app.type',
+		'app.location',
+		'app.group',
+		'app.entradas_salidas_dia',
+		'app.entradas_salidas_mese',
+		'app.entradas_salidas_minuto'
 	);
 
 /**

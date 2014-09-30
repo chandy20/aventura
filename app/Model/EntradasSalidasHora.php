@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * EntradasSalidasHora Model
  *
- * @property Description $Description
+ * @property Torniquete $Torniquete
  */
 class EntradasSalidasHora extends AppModel {
 
@@ -16,9 +16,9 @@ class EntradasSalidasHora extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Description' => array(
-			'className' => 'Description',
-			'foreignKey' => 'description_id',
+		'Torniquete' => array(
+			'className' => 'Torniquete',
+			'foreignKey' => 'torniquete_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

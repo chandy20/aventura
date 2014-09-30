@@ -20,6 +20,7 @@ class EntradasSalidasMeseControllerTest extends ControllerTestCase {
 		'app.group',
 		'app.entradas_salidas_ano',
 		'app.entradas_salidas_dia',
+		'app.entradas_salidas_hora',
 		'app.entradas_salidas_minuto'
 	);
 
