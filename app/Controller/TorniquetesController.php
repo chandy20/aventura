@@ -113,4 +113,13 @@ class TorniquetesController extends AppController {
         public function reportes(){
             
         }
+        
+        public function mostrarReportes($id = null){
+            if ($this->request->is('post')){
+                $this->set(compact('id'));
+            } else {
+                $id = $this->request->data;
+                $this->set(compact('id'));
+            }
+        }
 }
