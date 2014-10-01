@@ -57,13 +57,13 @@
 </div>
 <script>
     
-    $(document).ready(function() {
+    function reporte(t){
 	chart = new Highcharts.Chart({
 		chart: {
 			renderTo: 'graficaCircular'
 		},
 		title: {
-			text: 'Porcentaje de Entradas/Salidas'
+			text: 'Cantidad de Entradas/Salidas Torniquete No. ' + t
 		},
 		subtitle: {
 			text: 'Mundo Aventura'
@@ -75,7 +75,7 @@
 		},
 		tooltip: {
 			formatter: function() {
-				return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+				return '<b>'+ this.point.name +'</b>: '+ this.y;
 			}
 		},
 		plotOptions: {
@@ -87,7 +87,7 @@
 					color: '#000000',
 					connectorColor: '#000000',
 					formatter: function() {
-						return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+						return '<b>'+ this.point.name +'</b>: '+ this.y;
 					}
 				}
 			}
@@ -96,15 +96,11 @@
 			type: 'pie',
 			name: 'Browser share',
 			data: [
-				['Entradas',35.38],
-				['Salidas',64.62]
+				['Entradas',350],
+				['Salidas',180]
 			]
 		}]
 	});
-    });			
-
-    function reporte(t){
-        alert(t);
-    }    
+    }			
 
 </script>
