@@ -93,7 +93,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             <div class="footer">
                 
                 <div class="copy">	
-                    <p class="w3-link">Chandy</p>
+                    <p class="w3-link"></p>
                 </div>
                 <div class="clear"></div>
             </div>
