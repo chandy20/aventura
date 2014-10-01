@@ -37,7 +37,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <!--google fonts-->
         <link href = 'http://fonts.googleapis.com/css?family=Merriweather+Sans' rel = 'stylesheet' type = 'text/css'>
         <!--end google fonts -->
-        <link href = "css/style.css" rel = "stylesheet" type = "text/css" media = "all" />
+        <!--<link href = "css/style.css" rel = "stylesheet" type = "text/css" media = "all" />-->
+        <?=$this->Html->css("style");?>
     </head>
     <body>
         <!--start header -->
