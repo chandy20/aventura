@@ -40,6 +40,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <!--<link href = "css/style.css" rel = "stylesheet" type = "text/css" media = "all" />-->
         <?=$this->Html->css("style");?>
         <?=$this->Html->css("tabla");?>
+        <?=$this->Html->script("jquery");?>
+        <?=$this->Html->script("highstock");?>
+        <?=$this->Html->script("exporting");?>
     </head>
     <body>
         <!--start header -->

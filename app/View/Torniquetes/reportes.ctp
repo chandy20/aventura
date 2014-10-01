@@ -48,10 +48,63 @@
             </tr>
         </tbody>
     </table>
+    <br>
+    <table class="container">
+        <tr>
+            <th><div id="graficaCircular"></div></th>
+        </tr>
+    </table>
 </div>
 <script>
-function reporte(t){
-    alert(t);
-}    
+    
+    $(document).ready(function() {
+	chart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'graficaCircular'
+		},
+		title: {
+			text: 'Porcentaje de Entradas/Salidas'
+		},
+		subtitle: {
+			text: 'Mundo Aventura'
+		},
+		plotArea: {
+			shadow: null,
+			borderWidth: null,
+			backgroundColor: null
+		},
+		tooltip: {
+			formatter: function() {
+				return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+			}
+		},
+		plotOptions: {
+			pie: {
+				allowPointSelect: true,
+				cursor: 'pointer',
+				dataLabels: {
+					enabled: true,
+					color: '#000000',
+					connectorColor: '#000000',
+					formatter: function() {
+						return '<b>'+ this.point.name +'</b>: '+ this.y +' %';
+					}
+				}
+			}
+		},
+                series: [{
+			type: 'pie',
+			name: 'Browser share',
+			data: [
+				['Entradas',35.38],
+				['Salidas',64.62]
+			]
+		}]
+	});
+    });			
+
+    function reporte(t){
+        alert(t);
+    }    
 
 </script>
