@@ -55,10 +55,10 @@ class TorniquetesController extends AppController {
 				$this->Session->setFlash(__('The torniquete could not be saved. Please, try again.'));
 			}
 		}
-		$types = $this->Torniquete->Type->find('list');
-		$locations = $this->Torniquete->Location->find('list');
-		$groups = $this->Torniquete->Group->find('list');
-		$this->set(compact('types', 'locations', 'groups'));
+		$tipos = $this->Torniquete->Tipo->find('list');
+		$locaciones = $this->Torniquete->Locacione->find('list');
+		$grupos = $this->Torniquete->Grupo->find('list');
+		$this->set(compact('tipos', 'locaciones', 'grupos'));
 	}
 
 /**
@@ -83,10 +83,10 @@ class TorniquetesController extends AppController {
 			$options = array('conditions' => array('Torniquete.' . $this->Torniquete->primaryKey => $id));
 			$this->request->data = $this->Torniquete->find('first', $options);
 		}
-		$types = $this->Torniquete->Type->find('list');
-		$locations = $this->Torniquete->Location->find('list');
-		$groups = $this->Torniquete->Group->find('list');
-		$this->set(compact('types', 'locations', 'groups'));
+		$tipos = $this->Torniquete->Tipo->find('list');
+		$locaciones = $this->Torniquete->Locacione->find('list');
+		$grupos = $this->Torniquete->Grupo->find('list');
+		$this->set(compact('tipos', 'locaciones', 'grupos'));
 	}
 
 /**

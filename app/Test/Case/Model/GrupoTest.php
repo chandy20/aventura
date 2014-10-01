@@ -13,7 +13,15 @@ class GrupoTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.grupo'
+		'app.grupo',
+		'app.torniquete',
+		'app.tipo',
+		'app.locacion',
+		'app.entradas_salidas_ano',
+		'app.entradas_salidas_dia',
+		'app.entradas_salidas_hora',
+		'app.entradas_salidas_mese',
+		'app.entradas_salidas_minuto'
 	);
 
 /**

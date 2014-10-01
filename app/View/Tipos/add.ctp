@@ -15,5 +15,7 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Tipos'), array('action' => 'index')); ?></li>
+		<li><?php echo $this->Html->link(__('List Torniquetes'), array('controller' => 'torniquetes', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Torniquete'), array('controller' => 'torniquetes', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

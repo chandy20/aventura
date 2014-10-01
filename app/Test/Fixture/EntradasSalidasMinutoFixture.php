@@ -32,8 +32,8 @@ class EntradasSalidasMinutoFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => '',
-			'fecha' => '2014-09-30',
-			'hour' => '20:39:31',
+			'fecha' => '2014-10-01',
+			'hour' => '01:42:55',
 			'entradas' => 1,
 			'salidas' => 1,
 			'torniquete_id' => ''

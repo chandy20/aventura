@@ -33,8 +33,8 @@ class EntradasSalidasHoraFixture extends CakeTestFixture {
 		array(
 			'id' => '',
 			'torniquete_id' => '',
-			'fecha' => '2014-09-30',
-			'hora' => '20:39:31',
+			'fecha' => '2014-10-01',
+			'hora' => '01:42:55',
 			'entradas' => '',
 			'salidas' => ''
 		),

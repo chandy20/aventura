@@ -32,7 +32,7 @@ class EntradasSalidasDiaFixture extends CakeTestFixture {
 		array(
 			'id' => '',
 			'torniquete_id' => '',
-			'fecha' => '2014-09-30',
+			'fecha' => '2014-10-01',
 			'entradas' => '',
 			'salidas' => ''
 		),

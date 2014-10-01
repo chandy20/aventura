@@ -1,5 +1,6 @@
+<link href = "../../webroot/css/style.css" rel = "stylesheet" type = "text/css" media = "all" />
 <div class="locaciones form">
-<?php echo $this->Form->create('Locacione'); ?>
+<?php echo $this->Form->create('Crear Locación'); ?>
 	<fieldset>
 		<legend><?php echo __('Add Locacione'); ?></legend>
 	<?php
@@ -15,5 +16,7 @@
 	<ul>
 
 		<li><?php echo $this->Html->link(__('List Locaciones'), array('action' => 'index')); ?></li>
+		<li><?php echo $this->Html->link(__('List Torniquetes'), array('controller' => 'torniquetes', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Torniquete'), array('controller' => 'torniquetes', 'action' => 'add')); ?> </li>
 	</ul>
 </div>

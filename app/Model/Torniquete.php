@@ -3,9 +3,9 @@ App::uses('AppModel', 'Model');
 /**
  * Torniquete Model
  *
- * @property Type $Type
- * @property Location $Location
- * @property Group $Group
+ * @property Tipo $Tipo
+ * @property Locacione $Locacione
+ * @property Grupo $Grupo
  * @property EntradasSalidasAno $EntradasSalidasAno
  * @property EntradasSalidasDia $EntradasSalidasDia
  * @property EntradasSalidasHora $EntradasSalidasHora
@@ -23,23 +23,23 @@ class Torniquete extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Type' => array(
-			'className' => 'Type',
-			'foreignKey' => 'type_id',
+		'Tipo' => array(
+			'className' => 'Tipo',
+			'foreignKey' => 'tipo_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Location' => array(
-			'className' => 'Location',
-			'foreignKey' => 'location_id',
+		'Locacione' => array(
+			'className' => 'Locacione',
+			'foreignKey' => 'locacione_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Group' => array(
-			'className' => 'Group',
-			'foreignKey' => 'group_id',
+		'Grupo' => array(
+			'className' => 'Grupo',
+			'foreignKey' => 'grupo_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

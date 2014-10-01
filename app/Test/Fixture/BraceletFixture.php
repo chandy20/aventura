@@ -29,7 +29,7 @@ class BraceletFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => '',
-			'date' => 1412102371,
+			'date' => 1412120575,
 			'cod_barras' => 'Lorem ipsum dolor sit amet'
 		),
 	);

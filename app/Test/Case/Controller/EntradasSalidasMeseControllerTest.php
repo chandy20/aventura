@@ -15,9 +15,9 @@ class EntradasSalidasMeseControllerTest extends ControllerTestCase {
 	public $fixtures = array(
 		'app.entradas_salidas_mese',
 		'app.torniquete',
-		'app.type',
-		'app.location',
-		'app.group',
+		'app.tipo',
+		'app.locacione',
+		'app.grupo',
 		'app.entradas_salidas_ano',
 		'app.entradas_salidas_dia',
 		'app.entradas_salidas_hora',
