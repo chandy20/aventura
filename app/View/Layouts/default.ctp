@@ -39,6 +39,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <!--end google fonts -->
         <!--<link href = "css/style.css" rel = "stylesheet" type = "text/css" media = "all" />-->
         <?=$this->Html->css("style");?>
+        <?=$this->Html->css("tabla");?>
     </head>
     <body>
         <!--start header -->
