@@ -51,11 +51,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                         </div>
                         <div class = "cssmenu">
                             <ul>
-                                <li ><a class = "home" href = "index.html"></a></li>
-                                <li class = "active"><a href = "about.html">About</a></li>
-                                <li><a href = "blog.html">Blog</a></li>
-                                <li><a href = "inspiration.html">Inspiration</a></li>
-                                <li><a href = "contact.html">Contact Us</a></li>
+                                <li ><a class = "home" ></a></li>
+                                <li class = "active"><a >Reportes por Hora</a></li>
+                                <li><a>Reportes Por Día</a></li>
+                                <li><a>Reportes por Mes</a></li>
+                                <li><a>Reportes por Año</a></li>
                                 <div class = "clear"></div>
                             </ul>
                         </div>
@@ -70,10 +70,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 <div class = "wrapper">
                     <div class = "hdr-nav">
                         <ul class = "sub_nav">
-                            <li><a href = "#">Business</a></li>
-                            <li><a href = "#">Mobile</a></li>
-                            <li class = "hide"><a href = "#">Social Media</a></li>
-                            <li class = "active"><a href = "#">Technology</a></li>
+                            
                         </ul>
                     </div>
                     <div class = "clear"></div>
