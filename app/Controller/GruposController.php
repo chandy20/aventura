@@ -101,4 +101,8 @@ class GruposController extends AppController {
 		}
 		return $this->redirect(array('action' => 'index'));
 	}
+        
+        public function parque(){
+            
+        }
 }

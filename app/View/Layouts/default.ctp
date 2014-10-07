@@ -43,6 +43,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <?=$this->Html->script("jquery");?>
         <?=$this->Html->script("highstock");?>
         <?=$this->Html->script("exporting");?>
+        <?=$this->Html->script("operaciones");?>
+        <?=$this->Html->script("jquery.min");?>
     </head>
     <body>
         <!--start header -->
@@ -51,13 +53,14 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 <div class = "wrapper">
                     <div class = "header">
                         <div class = "logo">
-                            <a href = "index.html"><img src = "images/logo.png" alt = ""/> </a>
+                            <a><img src = "<?php echo $this->webroot .'/img/logo.png' ?>" alt = ""/> </a>
                         </div>
                         <div class = "cssmenu">
                             <ul>
-                                <li ><a class = "home" ></a></li>
-                                <li class = "active"><a >Reportes por Hora</a></li>
-                                <li><a>Reportes Por Día</a></li>
+                                <li><a class = "home" ></a></li>
+                                <li><a href="<?=  $this->Html->url(array("controller" => "Grupos", "action" => "parque")) ?>">Parque</a></li>
+                                <li><a href="<?=  $this->Html->url(array("controller" => "Torniquetes", "action" => "reportes")) ?>">Reportes por Hora</a></li>
+                                <li><a href="<?=  $this->Html->url(array("controller" => "Torniquetes", "action" => "dia")) ?>">Reportes Por Día</a></li>
                                 <li><a>Reportes por Mes</a></li>
                                 <li><a>Reportes por Año</a></li>
                                 <div class = "clear"></div>
@@ -69,18 +72,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             </div>
         </div>
         <!--start sub-header -->
-        <div class = "header_sub_bg">
-            <div class = "wrap">
-                <div class = "wrapper">
-                    <div class = "hdr-nav">
-                        <ul class = "sub_nav">
-                            
-                        </ul>
-                    </div>
-                    <div class = "clear"></div>
-                </div>
-            </div>
-        </div>
+        
         <!--start main -->
         <div class = "wrap">
             <div class = "wrapper">
@@ -88,6 +80,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                    <?php
                 echo $this->Session->flash();
                 ?>
+                   
                 <?php echo $this->fetch('content'); ?>
                 </div>
             </div>

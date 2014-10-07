@@ -1,23 +1,25 @@
-<div class="locaciones form">
+<div class="locaciones form" align='center'>
 <?php echo $this->Form->create('Locacione'); ?>
 	<fieldset>
-		<legend><?php echo __('Edit Locacione'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('cod_locacion');
-		echo $this->Form->input('nombre_locacion');
-		echo $this->Form->input('descripcion');
-	?>
+            <legend><h1><?php echo __('Editar Entrada'); ?></h1></legend>
+                <table>
+                    <tr>
+                        
+                        <td><?php echo $this->Form->input('id', array('style'=>'display:none'));?></td>
+                    </tr>
+                    <tr>
+                        <td>Código de Entrada</td>
+                        <td><?php echo $this->Form->input('cod_locacion', array('label'=>''));?></td>
+                    </tr>
+                    <tr>
+                        <td>Nombre de Entrada</td>
+                        <td><?php echo $this->Form->input('nombre_locacion', array('label'=>''));?></td>
+                    </tr>
+                    <tr>
+                        <td>Nombre de Entrada</td>
+                        <td><?php echo $this->Form->input('descripcion', array('label'=>''));?></td>
+                    </tr>
+                </table>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Locacione.id')), array(), __('Are you sure you want to delete # %s?', $this->Form->value('Locacione.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Locaciones'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Torniquetes'), array('controller' => 'torniquetes', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Torniquete'), array('controller' => 'torniquetes', 'action' => 'add')); ?> </li>
-	</ul>
+<?php echo $this->Form->end(__('Editar')); ?>
 </div>

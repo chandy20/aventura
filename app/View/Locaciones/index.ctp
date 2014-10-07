@@ -1,19 +1,19 @@
-<div class="locaciones index">
-	<h2><?php echo __('Locaciones'); ?></h2>
+<div class="locaciones index" align='center'>
+	<h1><?php echo __('Locaciones'); ?></h1>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('cod_locacion'); ?></th>
-			<th><?php echo $this->Paginator->sort('nombre_locacion'); ?></th>
-			<th><?php echo $this->Paginator->sort('descripcion'); ?></th>
+			<!--<th><?php echo $this->Paginator->sort('id', ''); ?></th>-->
+			<th><?php echo $this->Paginator->sort('cod_locacion', 'Código'); ?></th>
+			<th><?php echo $this->Paginator->sort('nombre_locacion', 'Entrada'); ?></th>
+			<th><?php echo $this->Paginator->sort('descripcion', 'Descripción'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	</thead>
 	<tbody>
 	<?php foreach ($locaciones as $locacione): ?>
 	<tr>
-		<td><?php echo h($locacione['Locacione']['id']); ?>&nbsp;</td>
+		<!--<td><?php echo h($locacione['Locacione']['id']); ?>&nbsp;</td>-->
 		<td><?php echo h($locacione['Locacione']['cod_locacion']); ?>&nbsp;</td>
 		<td><?php echo h($locacione['Locacione']['nombre_locacion']); ?>&nbsp;</td>
 		<td><?php echo h($locacione['Locacione']['descripcion']); ?>&nbsp;</td>
@@ -40,11 +40,4 @@
 	?>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Locacione'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Torniquetes'), array('controller' => 'torniquetes', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Torniquete'), array('controller' => 'torniquetes', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+

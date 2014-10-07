@@ -47,8 +47,13 @@ class LocacionesController extends AppController {
  */
 	public function add() {
 		if ($this->request->is('post')) {
+                    
 			$this->Locacione->create();
-			if ($this->Locacione->save($this->request->data)) {
+                        $datos = $this->request->data;
+                        $c = $datos['locacione']['cod_locacion'];
+                        $n = $datos['locacione']['nombre_locacion'];
+                        $d = $datos['locacione']['descripcion'];
+			if (!$this->Locacione->query("INSERT into locaciones(`cod_locacion`, `nombre_locacion`, `descripcion`) VALUES('$c', '$n', '$d' )")) {
 				$this->Session->setFlash(__('The locacione has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {

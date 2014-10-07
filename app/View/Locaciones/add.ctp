@@ -1,22 +1,27 @@
-<link href = "../../webroot/css/style.css" rel = "stylesheet" type = "text/css" media = "all" />
-<div class="locaciones form">
-<?php echo $this->Form->create('Crear Locación'); ?>
+<div class="locaciones form" align='center'>
+<?php echo $this->Form->create('locacione'); ?>
 	<fieldset>
-		<legend><?php echo __('Add Locacione'); ?></legend>
+            <legend><h1><?php echo __('Crear Entrada'); ?></h1></legend>
+                <table>
+                    <tr>
+                        <td>Código de Entrada</td>
+                        <td><?php echo $this->Form->input('cod_locacion', array('label'=>'')); ?></td>
+                    </tr>
+                    <tr>
+                        <td>Nombre de Entrada</td>
+                        <td><?php echo $this->Form->input('nombre_locacion', array('label'=>'')); ?></td>
+                    </tr>
+                    <tr>
+                        <td>Descripción de Entrada</td>
+                        <td><?php echo $this->Form->input('descripcion', array('label'=>'')); ?></td>
+                    </tr>
+                    
+                </table>
 	<?php
-		echo $this->Form->input('cod_locacion');
-		echo $this->Form->input('nombre_locacion');
-		echo $this->Form->input('descripcion');
+		
+		
+		
 	?>
 	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List Locaciones'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Torniquetes'), array('controller' => 'torniquetes', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Torniquete'), array('controller' => 'torniquetes', 'action' => 'add')); ?> </li>
-	</ul>
+<?php echo $this->Form->end(__('Crear')); ?>
 </div>

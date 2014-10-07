@@ -1,0 +1,95 @@
+<?php
+echo $this->Html->script(array('jscal2', 'es'));
+echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
+?>
+<?php echo $this->Form->create('Torniquetes'); ?>
+    <div class="torniquetes dia" align="center">
+        <h1>Reporte Por Día</h1><br>
+        <label>Entrada</label>            
+        <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "TODAS")); ?>
+        <br> 
+        <label>Fecha</label>
+        <div>
+            <?php
+            echo $this->Form->input('fecha', array('label' => '', 'maxlength' => '15', 'readonly' => 'readonly', 'required' => 'true'));
+            ?>
+            <img src="<?php echo $this->webroot . '/img/calendario.png' ?>"  id="selector" name="selector" style="cursor:pointer" />
+            <br><br>
+            <input type="button" id="buscar" name="buscar" value="Buscar">
+        </div>
+    </div>
+</form>
+<script>
+    Calendar.setup({
+        inputField: "TorniquetesFecha",
+        trigger: "selector",
+        onSelect: function() {
+            this.hide();
+        },
+        dateFormat: "%Y-%m-%d 00:00:00"
+    });
+</script>
+<script>
+    $("#buscar").click(function() {
+        var url2 = urlbase + "Torniquetes/reporte.xml";
+        var datos2 = {
+            fecha: $("#TorniquetesFecha").val(),
+            entrada: $("#TorniquetesLocacioneId").val()
+        };
+        ajax(url2, datos2, function(xml) {
+            var x= 0; var y= o;
+            $("datos", xml).each(function() {
+                    var obj = $(this).find("EntradasSalidasDia");
+                   x = $("entradas", obj).text();
+                    y = $("salidas", obj).text();
+                    reporte(x,y);                   
+                });
+
+        });
+    });
+    function reporte(x, y) {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'graficaCircular'
+            },
+            title: {
+                text: 'Cantidad de Entradas/Salidas Torniquete No. ' + t
+            },
+            subtitle: {
+                text: 'Mundo Aventura'
+            },
+            plotArea: {
+                shadow: null,
+                borderWidth: null,
+                backgroundColor: null
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>' + this.point.name + '</b>: ' + this.y;
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>' + this.point.name + '</b>: ' + this.y;
+                        }
+                    }
+                }
+            },
+            series: [{
+                    type: 'pie',
+                    name: 'Browser share',
+                    data: [
+                        ['Entradas', x],
+                        ['Salidas', y]
+                    ]
+                }]
+        });
+    }
+</script>
