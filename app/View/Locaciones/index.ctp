@@ -1,5 +1,5 @@
 <div class="locaciones index" align='center'>
-	<h1><?php echo __('Locaciones'); ?></h1>
+	<h1><?php echo __('Entradas'); ?></h1>
 	<table cellpadding="0" cellspacing="0">
 	<thead>
 	<tr>

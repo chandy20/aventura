@@ -15,10 +15,11 @@ class TorniquetesController extends AppController {
      *
      * @var array
      */
-    var $components = array('Paginator', 'Session','RequestHandler');
+    var $components = array('Paginator', 'Session', 'RequestHandler');
+
 //    public $components = array('Paginator', 'Session', 'RequestHandler');
 
-    function beforeFilter () {
+    function beforeFilter() {
         if ($this->RequestHandler->accepts('html')) {
             // Execute code only if client accepts an HTML (text/html) response
         } elseif ($this->RequestHandler->accepts('xml')) {
@@ -28,6 +29,7 @@ class TorniquetesController extends AppController {
             // Executes if the client accepts any of the above: XML, RSS or Atom
         }
     }
+
     /**
      * index method
      *
@@ -158,26 +160,33 @@ class TorniquetesController extends AppController {
     }
 
     public function reporte() {
-        $this->loadModel("EntradasSalidasDia");
+        $this->loadModel("EntradasSalidasDiasParque");
         $this->layout = "webservices";
         $fecha = $this->request->data["fecha"];
         $entrada = $this->request->data["entrada"];
+        if ($entrada == null || $entrada == "") {
 
-        $options = array(
-            "conditions" => array(
-                "EntradasSalidasDia.fecha" => $fecha
-            ),
-            "fields" => array(
-                "EntradasSalidasDia.entradas",
-                "EntradasSalidasDia.salidas"
-            ),
-            "recursive" => 0
-        );
-        $datos = $this->EntradasSalidasDia->find("all", $options);
-//        debug($datos);
-        $log = $this->EntradasSalidasDia->getDataSource()->getLog(false, false);
-        //debug($log);
-//        var_dump($cities);
+            $options = array(
+                "conditions" => array(
+                    "EntradasSalidasDiasParque.fecha" => $fecha
+                ),
+                "fields" => array(
+                    "EntradasSalidasDiasParque.entradas",
+                    "EntradasSalidasDiasParque.salidas"
+                ),
+                "recursive" => 0
+            );
+            $datos = $this->EntradasSalidasDiasParque->find("all", $options);
+            $log = $this->EntradasSalidasDiasParque->getDataSource()->getLog(false, false);
+        } else {
+            $d = $this->EntradasSalidasDiasParque->query("SELECT sum(e.`entradas`) as entradas, sum(e.`salidas`) as salidas FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id` = e.`torniquete_id` INNER JOIN `locaciones` l ON l.`id` = t.`locacione_id` WHERE l.`id` = $entrada AND e.`fecha` = '$fecha'");
+            foreach ($d as $key => $value) {
+                $datos ['EntradasSalidasDiasParque']= $value[0]; 
+//                $datos ['EntradasSalidasDiasParque']= $value;['salidas']; 
+            }
+//            debug($datos);die;
+            
+        } 
         $this->set(
                 array(
                     "datos" => $datos,

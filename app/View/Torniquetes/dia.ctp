@@ -3,21 +3,26 @@ echo $this->Html->script(array('jscal2', 'es'));
 echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
 ?>
 <?php echo $this->Form->create('Torniquetes'); ?>
-    <div class="torniquetes dia" align="center">
-        <h1>Reporte Por Día</h1><br>
-        <label>Entrada</label>            
-        <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "TODAS")); ?>
-        <br> 
-        <label>Fecha</label>
-        <div>
-            <?php
-            echo $this->Form->input('fecha', array('label' => '', 'maxlength' => '15', 'readonly' => 'readonly', 'required' => 'true'));
-            ?>
-            <img src="<?php echo $this->webroot . '/img/calendario.png' ?>"  id="selector" name="selector" style="cursor:pointer" />
-            <br><br>
-            <input type="button" id="buscar" name="buscar" value="Buscar">
-        </div>
+<div class="torniquetes dia" align="center">
+    <h1>Reporte Por Día</h1><br>
+    <label>Entrada</label>            
+    <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "TODAS")); ?>
+    <br> 
+    <label>Fecha</label>
+    <div>
+        <?php
+        echo $this->Form->input('fecha', array('label' => '', 'maxlength' => '15', 'readonly' => 'readonly', 'required' => 'true'));
+        ?>
+        <img src="<?php echo $this->webroot . '/img/calendario.png' ?>"  id="selector" name="selector" style="cursor:pointer" />
+        <br><br>
+        <input type="button" id="buscar" name="buscar" value="Buscar">
     </div>
+    <table class="container">
+        <tr>
+            <th><div id="graficaCircular"></div></th>
+        </tr>
+    </table>
+</div>
 </form>
 <script>
     Calendar.setup({
@@ -26,7 +31,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
         onSelect: function() {
             this.hide();
         },
-        dateFormat: "%Y-%m-%d 00:00:00"
+        dateFormat: "%Y-%m-%d"
     });
 </script>
 <script>
@@ -37,23 +42,27 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             entrada: $("#TorniquetesLocacioneId").val()
         };
         ajax(url2, datos2, function(xml) {
-            var x= 0; var y= o;
+
             $("datos", xml).each(function() {
-                    var obj = $(this).find("EntradasSalidasDia");
-                   x = $("entradas", obj).text();
-                    y = $("salidas", obj).text();
-                    reporte(x,y);                   
-                });
+                var obj = $(this).find("EntradasSalidasDiasParque");
+                var x, y;
+                x = $("entradas", obj).text();
+                y = $("salidas", obj).text();
+
+                reporte(x, y);
+            });
 
         });
     });
-    function reporte(x, y) {
+    function reporte(x, z) {
+       var a = parseInt(x);
+       var b = parseInt(z);
         chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'graficaCircular'
             },
             title: {
-                text: 'Cantidad de Entradas/Salidas Torniquete No. ' + t
+                text: 'Cantidad de Entradas/Salidas' 
             },
             subtitle: {
                 text: 'Mundo Aventura'
@@ -86,8 +95,8 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                     type: 'pie',
                     name: 'Browser share',
                     data: [
-                        ['Entradas', x],
-                        ['Salidas', y]
+                        ['Entradas', a],
+                        ['Salidas', b]
                     ]
                 }]
         });
