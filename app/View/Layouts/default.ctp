@@ -57,9 +57,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                         </div>
                         <div class = "cssmenu">
                             <ul>
-                                <li><a class = "home" ></a></li>
+                                <li><a class = "home" href="http://localhost/aventura" ></a></li>
                                 <li><a href="<?=  $this->Html->url(array("controller" => "Grupos", "action" => "parque")) ?>">Parque</a></li>
-                                <li><a href="<?=  $this->Html->url(array("controller" => "Torniquetes", "action" => "reportes")) ?>">Reportes por Hora</a></li>
+                                <li><a href="<?=  $this->Html->url(array("controller" => "Torniquetes", "action" => "reportes")) ?>">Reportes</a></li>
                                 <li><a href="<?=  $this->Html->url(array("controller" => "Torniquetes", "action" => "dia")) ?>">Reportes Por Día</a></li>
                                 <li><a>Reportes por Mes</a></li>
                                 <li><a>Reportes por Año</a></li>

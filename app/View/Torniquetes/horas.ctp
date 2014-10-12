@@ -3,10 +3,22 @@ echo $this->Html->script(array('jscal2', 'es'));
 echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
 ?>
 <?php echo $this->Form->create('Torniquetes'); ?>
-<div class="torniquetes dia" align="center">
-    <h1>Reporte Por Día</h1><br>
-    <label>Entrada</label>            
-    <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "Seleccione una entrada")); ?>
+<div class="torniquetes minutos" align="center">
+    <h1>Reporte Por Hora</h1><br>
+    <label>Entrada</label>
+    <?php
+    echo $this->Form->input('locacione_id', array(
+        'label' => '',
+        "empty" => "Seleccione una entrada",
+    ));
+    ?>
+    <label>Torniquete</label>
+    <?php
+    echo $this->Form->input('Torniquete_id', array(
+        'label' => '',
+        "empty" => "Seleccione un torniquete"
+    ));
+    ?>
     <br> 
     <label>Fecha</label>
     <div>
@@ -14,6 +26,26 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
         echo $this->Form->input('fecha', array('label' => '', 'maxlength' => '15', 'readonly' => 'readonly', 'required' => 'true'));
         ?>
         <img src="<?php echo $this->webroot . '/img/calendario.png' ?>"  id="selector" name="selector" style="cursor:pointer" />
+        <br>
+    </div>
+    <label>Hora</label>
+    <div align="center">
+        <select name="data[Torniquetes][hora]" id="hora">
+            <option value="">Seleccione una hora</option>
+            <?php
+            for ($i = 0; $i < 24; $i++) {
+                $hor = 0 + $i;
+                $hor2 = "$i";
+                if ($i < 10) {
+                    $aux = "0" . $hor2;
+                } else {
+                    $aux = $hor;
+                }
+                ?> 
+                <option value="<?= $hor ?>"><?= $aux ?></option>
+            <?php } ?>
+        </select>        
+        <h1></h1>
         <br><br>
         <input type="button" id="buscar" name="buscar" value="Buscar">
     </div>
@@ -35,35 +67,46 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
     });
 </script>
 <script>
+
     $("#buscar").click(function() {
         var url2 = urlbase + "Torniquetes/reporte.xml";
         var datos2 = {
             fecha: $("#TorniquetesFecha").val(),
-            entrada: $("#TorniquetesLocacioneId").val(),
-            vista: 0
+            hora: $("#hora").val(),           
+            torniquete: $("#TorniquetesTorniqueteId").val(),
+            locacion: $("#TorniquetesLocacioneId").val(),
+            vista: 3
         };
-        ajax(url2, datos2, function(xml) {
+        if ($("#TorniquetesLocacioneId").val() !== "" || $("#TorniquetesTorniqueteId").val() !== "") {
+            if ($("#TorniquetesFecha").val() !== "" && $("#hora").val() !== "" && $("#minuto").val() !== "") {
+                ajax(url2, datos2, function(xml) {
 
-            $("datos", xml).each(function() {
-                var obj = $(this).find("EntradasSalidasDiasParque");
-                var x, y;
-                x = $("entradas", obj).text();
-                y = $("salidas", obj).text();
+                    $("datos", xml).each(function() {
+                        var obj = $(this).find("EntradasSalidasDiasParque");
+                        var x, y;
+                        x = $("entradas", obj).text();
+                        y = $("salidas", obj).text();
 
-                reporte(x, y);
-            });
+                        reporte(x, y);
+                    });
 
-        });
+                });
+            } else {
+                alert("Debe Seleccionar una fecha completa para la busqueda");
+            }
+        } else {
+            alert("Debe primero seleccionar un torniquete o una Entrada");
+        }
     });
     function reporte(x, z) {
-       var a = parseInt(x);
-       var b = parseInt(z);
+        var a = parseInt(x);
+        var b = parseInt(z);
         chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'graficaCircular'
             },
             title: {
-                text: 'Cantidad de Entradas/Salidas' 
+                text: 'Cantidad de Entradas/Salidas'
             },
             subtitle: {
                 text: 'Mundo Aventura'
@@ -102,4 +145,5 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                 }]
         });
     }
+
 </script>

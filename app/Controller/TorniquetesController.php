@@ -64,7 +64,7 @@ class TorniquetesController extends AppController {
         if ($this->request->is('post')) {
             $this->Torniquete->create();
             if ($this->Torniquete->save($this->request->data)) {
-                $this->Session->setFlash(__('The torniquete has been saved.'));
+                $this->Session->setFlash(__('Torniuqete Creado Exitosamente'));
                 return $this->redirect(array('action' => 'index'));
             } else {
                 $this->Session->setFlash(__('The torniquete could not be saved. Please, try again.'));
@@ -79,7 +79,10 @@ class TorniquetesController extends AppController {
             "fields" => array(
                 "Locacione.nombre_locacion"
         )));
-
+        $grupos = $this->Torniquete->Grupo->find('list', array(
+            "fields" => array(
+                "Grupo.nombre_grupo"
+        )));
         $this->set(compact('tipos', 'locaciones', 'grupos'));
     }
 
@@ -143,7 +146,15 @@ class TorniquetesController extends AppController {
     }
 
     public function reportes() {
-        
+
+        $tor = $this->Torniquete->find('list', array(
+            "fields" => array(
+                "Torniquete.id"
+        )));
+        foreach ($tor as $key => $value) {
+            $torniquetes[$value] = "Torniquete " . $value;
+        }
+        $this->set(compact('torniquetes'));
     }
 
     public function dia() {
@@ -152,6 +163,7 @@ class TorniquetesController extends AppController {
             "fields" => array(
                 "Locacione.nombre_locacion"
         )));
+        $locaciones[0] = "TODAS";
         $grupos = $this->Torniquete->Grupo->find('list', array(
             "fields" => array(
                 "Grupo.nombre_grupo"
@@ -160,39 +172,119 @@ class TorniquetesController extends AppController {
     }
 
     public function reporte() {
-        $this->loadModel("EntradasSalidasDiasParque");
         $this->layout = "webservices";
-        $fecha = $this->request->data["fecha"];
-        $entrada = $this->request->data["entrada"];
-        if ($entrada == null || $entrada == "") {
+        $this->loadModel("EntradasSalidasDiasParque");
+        $vista = $this->request->data ["vista"];
+        if ($vista == 0) {
+            $fecha = $this->request->data["fecha"];
+            $entrada = $this->request->data["entrada"];
+            if ($entrada == null || $entrada == "") {
 
-            $options = array(
-                "conditions" => array(
-                    "EntradasSalidasDiasParque.fecha" => $fecha
-                ),
-                "fields" => array(
-                    "EntradasSalidasDiasParque.entradas",
-                    "EntradasSalidasDiasParque.salidas"
-                ),
-                "recursive" => 0
-            );
-            $datos = $this->EntradasSalidasDiasParque->find("all", $options);
-            $log = $this->EntradasSalidasDiasParque->getDataSource()->getLog(false, false);
-        } else {
-            $d = $this->EntradasSalidasDiasParque->query("SELECT sum(e.`entradas`) as entradas, sum(e.`salidas`) as salidas FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id` = e.`torniquete_id` INNER JOIN `locaciones` l ON l.`id` = t.`locacione_id` WHERE l.`id` = $entrada AND e.`fecha` = '$fecha'");
-            foreach ($d as $key => $value) {
-                $datos ['EntradasSalidasDiasParque']= $value[0]; 
-//                $datos ['EntradasSalidasDiasParque']= $value;['salidas']; 
+                $options = array(
+                    "conditions" => array(
+                        "EntradasSalidasDiasParque.fecha" => $fecha
+                    ),
+                    "fields" => array(
+                        "EntradasSalidasDiasParque.entradas",
+                        "EntradasSalidasDiasParque.salidas"
+                    ),
+                    "recursive" => 0
+                );
+                $datos = $this->EntradasSalidasDiasParque->find("all", $options);
+                $log = $this->EntradasSalidasDiasParque->getDataSource()->getLog(false, false);
+            } else {
+                $d = $this->EntradasSalidasDiasParque->query("SELECT sum(e.`entradas`) as entradas, sum(e.`salidas`) as salidas FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id` = e.`torniquete_id` INNER JOIN `locaciones` l ON l.`id` = t.`locacione_id` WHERE l.`id` = $entrada AND e.`fecha` = '$fecha'");
+                foreach ($d as $key => $value) {
+                    $datos ['EntradasSalidasDiasParque'] = $value[0];
+                }
             }
-//            debug($datos);die;
-            
-        } 
+        } else if ($vista == 1) {
+            $torniquete = $this->request->data["torniquete"];
+            $fecha = $this->request->data["fecha"];
+            $d = $this->EntradasSalidasDiasParque->query("SELECT `entradas`, `salidas` FROM `entradas_salidas_dias` WHERE `fecha` = '$fecha' and `torniquete_id` = $torniquete ");
+            foreach ($d as $key => $value) {
+                $datos ['EntradasSalidasDiasParque'] = $value[0];
+            }
+        } else if ($vista == 2) {
+            $locacione_id = $this->request->data["locacion"];
+            $torniquete_id = $this->request->data["torniquete"];
+            $hora = $this->request->data["hora"];
+            $minuto = $this->request->data["minuto"];
+            if (strlen($minuto) < 2) {
+                $minuto = "0" . $this->request->data["minuto"];
+            }
+            $fecha = $this->request->data["fecha"] . " " . $hora . ":" . $minuto . ":00";
+            if ($locacione_id != null || $locacione_id != "") {
+                if ($locacione_id == 0 || $locacione_id == "0") {
+                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(`entradas`) AS entradas, sum(`salidas`) AS salidas FROM `entradas_salidas_minutos` WHERE `fecha` = '$fecha'");
+
+                    foreach ($d as $key => $value) {
+                        $datos ['EntradasSalidasDiasParque'] = $value[0];
+                    }
+                } else {
+                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) as salidas FROM `entradas_salidas_minutos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` INNER JOIN `locaciones` l ON l.`id` = t.`locacione_id` WHERE l.`id`=$locacione_id AND `fecha` = '$fecha' ");
+                    foreach ($d as $key => $value) {
+                        $datos ['EntradasSalidasDiasParque'] = $value[0];
+                    }
+                }
+            } else {
+                $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_minutos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE t.`id`=$torniquete_id AND `fecha` = '$fecha'");
+
+                foreach ($d as $key => $value) {
+                    $datos ['EntradasSalidasDiasParque'] = $value[0];
+                }
+            }
+        }if ($vista == 3) {
+            $locacione_id = $this->request->data["locacion"];
+            $torniquete_id = $this->request->data["torniquete"];
+            $hora = $this->request->data["hora"];
+            $fecha = $this->request->data["fecha"];
+            if ($locacione_id != null || $locacione_id != "") {
+                if ($locacione_id == 0 || $locacione_id == "") {
+                    
+                }
+            }
+        }
         $this->set(
                 array(
                     "datos" => $datos,
                     "_serialize" => array("datos")
                 )
         );
+    }
+
+    public function minutos() {
+        $locaciones = $this->Torniquete->Locacione->find('list', array(
+            "fields" => array(
+                "Locacione.nombre_locacion"
+        )));
+        $locaciones[0] = "TODAS";
+
+        $tor = $this->Torniquete->find('list', array(
+            "fields" => array(
+                "Torniquete.id"
+        )));
+        foreach ($tor as $key => $value) {
+            $torniquetes[$value] = "Torniquete " . $value;
+        }
+        $this->set(compact('torniquetes', 'locaciones'));
+    }
+
+    public function horas() {
+        $locaciones = $this->Torniquete->Locacione->find('list', array(
+            "fields" => array(
+                "Locacione.nombre_locacion"
+        )));
+        $locaciones[0] = "TODAS";
+
+        $tor = $this->Torniquete->find('list', array(
+            "fields" => array(
+                "Torniquete.id"
+        )));
+        foreach ($tor as $key => $value) {
+            $torniquetes[$value] = "Torniquete " . $value;
+        }
+        $this->set(compact('torniquetes', 'locaciones'));
     }
 
 }

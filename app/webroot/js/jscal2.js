@@ -10,35 +10,35 @@
  */
 Calendar = function() {
     function bm(a) {
-        typeof a == "string" && (a = document.getElementById(a));
-        return a
+        typeof a === "string" && (a = document.getElementById(a));
+        return a;
     }
     function bk(a, b, c) {
         for (c = 0; c < a.length; ++c)
-            b(a[c])
+            b(a[c]);
     }
     function bj() {
         var a = document.documentElement, b = document.body;
-        return{x: a.scrollLeft || b.scrollLeft, y: a.scrollTop || b.scrollTop, w: a.clientWidth || window.innerWidth || b.clientWidth, h: a.clientHeight || window.innerHeight || b.clientHeight}
+        return{x: a.scrollLeft || b.scrollLeft, y: a.scrollTop || b.scrollTop, w: a.clientWidth || window.innerWidth || b.clientWidth, h: a.clientHeight || window.innerHeight || b.clientHeight};
     }
     function bi(a) {
         var b = 0, c = 0, d = /^div$/i.test(a.tagName), e, f;
         d && a.scrollLeft && (b = a.scrollLeft), d && a.scrollTop && (c = a.scrollTop), e = {x: a.offsetLeft - b, y: a.offsetTop - c}, a.offsetParent && (f = bi(a.offsetParent), e.x += f.x, e.y += f.y);
-        return e
+        return e;
     }
     function bh(a, b) {
         var c = e ? a.clientX + document.body.scrollLeft : a.pageX, d = e ? a.clientY + document.body.scrollTop : a.pageY;
         b && (c -= b.x, d -= b.y);
-        return{x: c, y: d}
+        return{x: c, y: d};
     }
     function bg(a, b) {
         var c = a.style;
-        b != null && (c.display = b ? "" : "none");
-        return c.display != "none"
+        b !== null && (c.display = b ? "" : "none");
+        return c.display !== "none";
     }
     function bf(a, b) {
-        b === "" ? e ? a.style.filter = "" : a.style.opacity = "" : b != null ? e ? a.style.filter = "alpha(opacity=" + b * 100 + ")" : a.style.opacity = b : e ? /alpha\(opacity=([0-9.])+\)/.test(a.style.opacity) && (b = parseFloat(RegExp.$1) / 100) : b = parseFloat(a.style.opacity);
-        return b
+        b === "" ? e ? a.style.filter = "" : a.style.opacity = "" : b !== null ? e ? a.style.filter = "alpha(opacity=" + b * 100 + ")" : a.style.opacity = b : e ? /alpha\(opacity=([0-9.])+\)/.test(a.style.opacity) && (b = parseFloat(RegExp.$1) / 100) : b = parseFloat(a.style.opacity);
+        return b;
     }
     function bd(a, b, c) {
         function h() {
