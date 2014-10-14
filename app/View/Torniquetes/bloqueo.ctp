@@ -1,29 +1,46 @@
 <?php
-echo $this->Html->script(array('jscal2', 'es'));
-echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
+echo $this->Html->script(array('jquery.multi-select', 'jscal2', 'es'));
+echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'));
 ?>
 <?php echo $this->Form->create('Torniquetes'); ?>
 <div class="torniquetes dia" align="center">
-    <h1>Reporte Por Día</h1><br>
-    <label>Entrada</label>            
-    <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "Seleccione una entrada")); ?>
+    <h1>Bloqueo/Desbloqueo de Toriniquetes</h1><br>
+    <table>
+        <tr>
+            <td> <label>Entrada</label>            
+                <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "Seleccione una entrada")); ?></td>
+            <td>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <?php //echo '	 '?>
+            </td>
+            <td><label>Entrada</label>            
+                <?php echo $this->Form->input('locacione_id2', array('label' => '',
+                     "options" => $locaciones2,
+                    "empty" => "Seleccione una entrada"));
+                ?></td>
+        </tr>
+    </table>
+
     <br>
-    <label>Torniquete</label>
-    <?php
-    echo $this->Form->input('Torniquete_id', array(
-        'label' => '',
-        "empty" => "Seleccione un torniquete"
-    ));
-    ?>
+    <div class="control-group"  >
+
+        <label>Torniquete</label>
+        <?php
+        echo $this->Form->input('torniquetes', array(
+            "div" => array(
+                "class" => "controls"
+            ),
+            "label" => "",
+            "options" => $torniquetes,
+            "multiple" => true
+        ));
+//                    
+        ?>
+    </div>
     <br>
     <label>Fecha</label>
-    <div>
-        <?php
-        echo $this->Form->input('fecha', array('label' => '', 'maxlength' => '15', 'readonly' => 'readonly', 'required' => 'true'));
-        ?>
-        <img src="<?php echo $this->webroot . '/img/calendario.png' ?>"  id="selector" name="selector" style="cursor:pointer" />
-        <br><br>
-        <input type="button" id="buscar" name="buscar" value="Buscar">
+    <div>        
+        <input type="button" id="accion" name="bloquear" value="Bloquear">
     </div>
     <table class="container">
         <tr>
@@ -32,18 +49,14 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
     </table>
 </div>
 </form>
+
 <script>
-    Calendar.setup({
-        inputField: "TorniquetesFecha",
-        trigger: "selector",
-        onSelect: function() {
-            this.hide();
-        },
-        dateFormat: "%Y-%m-%d"
+    $('#TorniquetesTorniquetes').multiSelect({
+        afterSelect: function(values) {
+            $('#TorniquetesTorniquetes option[value="' + values + '"]').attr("selected", "selected")
+        }
     });
-</script>
-<script>
-    $("#buscar").click(function() {
+    $("#bloquear").click(function() {
         var url2 = urlbase + "Torniquetes/reporte.xml";
         var datos2 = {
             fecha: $("#TorniquetesFecha").val(),
@@ -65,7 +78,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                     });
 
                 });
-            }else{
+            } else {
                 alert("Debe especificar la fecha para la consulta");
             }
         } else {

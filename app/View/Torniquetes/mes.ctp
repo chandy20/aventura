@@ -4,7 +4,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
 ?>
 <?php echo $this->Form->create('Torniquetes'); ?>
 <div class="torniquetes dia" align="center">
-    <h1>Reporte Por Día</h1><br>
+    <h1>Reporte Por Mes</h1><br>
     <label>Entrada</label>            
     <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "Seleccione una entrada")); ?>
     <br>
@@ -39,7 +39,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
         onSelect: function() {
             this.hide();
         },
-        dateFormat: "%Y-%m-%d"
+        dateFormat: "%Y-%m"
     });
 </script>
 <script>
@@ -49,7 +49,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             fecha: $("#TorniquetesFecha").val(),
             entrada: $("#TorniquetesLocacioneId").val(),
             torniquete: $("#TorniquetesTorniqueteId").val(),
-            vista: 0
+            vista: 4
         };
         if ($("#TorniquetesLocacioneId").val() !== "" || $("#TorniquetesTorniqueteId").val() !== "") {
             if ($("#TorniquetesFecha").val() !== "") {

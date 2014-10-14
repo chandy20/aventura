@@ -16,10 +16,18 @@
                 <table >
                     <tr>
                         <td><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "add")) ?>"><img src="../app/webroot/img/door.png"></a></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php //echo '	 '?>
+                        </td>
                         <td><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "index")) ?>"><img src="../app/webroot/img/door.png"></a></td>
                     </tr>                
                     <tr>
                         <td><h3 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "add")) ?>">Crear Entrada</a></h3></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php //echo '	 '?>
+                        </td>
                         <td><h3 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "index")) ?>">Ver Entradas</a></h3></a></td>
                     </tr>                 
                 </table>
@@ -28,11 +36,29 @@
                 <table >
                     <tr>
                         <td><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "add")) ?>"><img src="../app/webroot/img/turnstile.png" width="100" height="148"></a></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php //echo '	 '?>
+                        </td>
                         <td><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "index")) ?>"><img src="../app/webroot/img/turnstile.png" width="100" height="148"></a></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php //echo '	 '?>
+                        </td>
+                        <td><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "bloqueo")) ?>"><img src="../app/webroot/img/turnstile.png" width="100" height="148"></a></td>
                     </tr>                
                     <tr>
                         <td><h3 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "add")) ?>">Crear Torniquete</a></h3></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php //echo '	 '?>
+                        </td>
                         <td><h3 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "index")) ?>">Ver Torniquetes</a></h3></a></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <?php //echo '	 '?>
+                        </td>
+                        <td><h3 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "bloqueo")) ?>">Bloquear/desbloquear</a></h3></a></td>
                     </tr>                 
                 </table>
             </div>
