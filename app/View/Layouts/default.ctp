@@ -30,7 +30,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         echo $this->fetch('css');
         echo $this->fetch('script');
         echo $this->Html->script(array('jquery.form', 'jquery-1.11.0.min'));
+        echo $this->Html->meta('favicon.ico', 'img/favicon.ico', array('type' => 'icon'));
         ?>
+        
         <title>Mundo Aventura</title>
         <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8" />
         <meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1">
@@ -38,13 +40,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <link href = 'http://fonts.googleapis.com/css?family=Merriweather+Sans' rel = 'stylesheet' type = 'text/css'>
         <!--end google fonts -->
         <!--<link href = "css/style.css" rel = "stylesheet" type = "text/css" media = "all" />-->
-        <?=$this->Html->css("style");?>
-        <?=$this->Html->css("tabla");?>
-        <?=$this->Html->script("jquery");?>
-        <?=$this->Html->script("highstock");?>
-        <?=$this->Html->script("exporting");?>
-        <?=$this->Html->script("operaciones");?>
-        <?=$this->Html->script("jquery.min");?>
+        <?= $this->Html->css("style"); ?>
+        <?= $this->Html->css("tabla"); ?>
+        <?= $this->Html->script("jquery"); ?>
+        <?= $this->Html->script("highstock"); ?>
+        <?= $this->Html->script("exporting"); ?>
+        <?= $this->Html->script("operaciones"); ?>
+        <?= $this->Html->script("jquery.min"); ?>
     </head>
     <body>
         <!--start header -->
@@ -53,13 +55,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                 <div class = "wrapper">
                     <div class = "header">
                         <div class = "logo">
-                            <a><img src = "<?php echo $this->webroot .'/img/logo.png' ?>" alt = ""/> </a>
+                            <a><img src = "<?php echo $this->webroot . '/img/logo.png' ?>" alt = ""/> </a>
                         </div>
                         <div class = "cssmenu">
                             <ul>
                                 <li><a class = "home" href="http://localhost/aventura" ></a></li>
-                                <li><a href="<?=  $this->Html->url(array("controller" => "Grupos", "action" => "parque")) ?>">Parque</a></li>
-                                <li><a href="<?=  $this->Html->url(array("controller" => "Torniquetes", "action" => "reportes")) ?>">Reportes</a></li>
+                                <li><a href="<?= $this->Html->url(array("controller" => "Grupos", "action" => "parque")) ?>">Parque</a></li>
+                                <li><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "reportes")) ?>">Reportes</a></li>
                                 <div class = "clear"></div>
                             </ul>
                         </div>
@@ -69,23 +71,23 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             </div>
         </div>
         <!--start sub-header -->
-        
+
         <!--start main -->
         <div class = "wrap">
             <div class = "wrapper">
                 <div class = "main">
-                   <?php
-                echo $this->Session->flash();
-                ?>
-                   
-                <?php echo $this->fetch('content'); ?>
+                    <?php
+                    echo $this->Session->flash();
+                    ?>
+
+                    <?php echo $this->fetch('content'); ?>
                 </div>
             </div>
         </div>
         <!-- start footer -->
         <div class="wrap">
             <div class="footer">
-                
+
                 <div class="copy">	
                     <p class="w3-link"></p>
                 </div>

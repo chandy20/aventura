@@ -14,7 +14,7 @@ class User extends AppModel {
     }
 
     public $belongsTo = array('Group');
-    public $actsAs = array('Acl' => array('type' => 'requester'));
+    public $actsAs = array('Acl' => array('type' => 'requester', 'enabled' => false));
 
     public function parentNode() {
         if (!$this->id && empty($this->data)) {
@@ -31,6 +31,9 @@ class User extends AppModel {
             return array('Group' => array('id' => $groupId));
         }
     }
-//    public $actsAs = array('Acl' => array('type' => 'requester', 'enabled' => false));
+
+    public function bindNode($user) {
+        return array('model' => 'Group', 'foreign_key' => $user['User']['group_id']);
+    }
 
 }

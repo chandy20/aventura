@@ -13,7 +13,8 @@ class GroupTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.group'
+		'app.group',
+		'app.user'
 	);
 
 /**

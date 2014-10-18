@@ -20,6 +20,10 @@
                         <td><?php echo $this->Form->input('serial', array('label'=>''));?><td>
                     </tr>
                     <tr>
+                        <td>IP</td>
+                        <td><?php echo $this->Form->input('ip', array('label'=>''));?></td>
+                    </tr>
+                    <tr>
                         <td>Descripción<td>
                         <td><?php echo $this->Form->input('descripcion', array('label'=>''));?><td>
                     </tr>

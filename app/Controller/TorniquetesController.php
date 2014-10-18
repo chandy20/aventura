@@ -15,9 +15,7 @@ class TorniquetesController extends AppController {
      *
      * @var array
      */
-    var $components = array('Paginator', 'Session',  'RequestHandler'); //'Auth',
-
-//    public $components = array('Paginator', 'Session', 'RequestHandler');
+    var $components = array('Paginator', 'Session', 'RequestHandler');
 
     function beforeFilter() {
         if ($this->RequestHandler->accepts('html')) {
@@ -67,7 +65,7 @@ class TorniquetesController extends AppController {
                 $this->Session->setFlash(__('Torniuqete Creado Exitosamente'));
                 return $this->redirect(array('action' => 'index'));
             } else {
-                $this->Session->setFlash(__('The torniquete could not be saved. Please, try again.'));
+                $this->Session->setFlash(__('El torniquete no pudo ser guardado. por favor, intente de nuevo.'));
             }
         }
         $tipos = $this->Torniquete->Tipo->find('list', array(
@@ -314,12 +312,12 @@ class TorniquetesController extends AppController {
                         $datos ['EntradasSalidasDiasParque'] = $value[0];
                     }
                 }
-            } else{
+            } else {
                 $torniquete_id = $this->request->data["torniquete"];
                 $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_anos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`id` = $torniquete_id");
-                    foreach ($d as $key => $value) {
-                        $datos ['EntradasSalidasDiasParque'] = $value[0];
-                    }
+                foreach ($d as $key => $value) {
+                    $datos ['EntradasSalidasDiasParque'] = $value[0];
+                }
             }
         }
         $this->set(
@@ -397,27 +395,99 @@ class TorniquetesController extends AppController {
         }
         $this->set(compact('torniquetes', 'locaciones'));
     }
-    
-    public function bloqueo(){
-        $locaciones = $this->Torniquete->Locacione->find('list', array(
-            "fields" => array(
-                "Locacione.nombre_locacion"
-        )));
-        $locaciones[0] = "TODAS";
-        $locaciones2 = $this->Torniquete->Locacione->find('list', array(
-            "fields" => array(
-                "Locacione.nombre_locacion"
-        )));
-        $locaciones2[0] = "TODAS";
 
-        $tor = $this->Torniquete->find('list', array(
+    public function bloqueo() {
+        if ($this->request->is('post')) {
+            $torniquetes = $this->request->data; 
+            if($torniquetes != array()){
+            for ($i = 1; $i <= count($torniquetes['Torniquetes']); $i++) {
+                $id = $torniquetes['Torniquetes'][$i];
+                if ($id != 0) {
+                    $sql = "UPDATE torniquetes SET estado = 1 WHERE id = $id";
+                    $this->Torniquete->query($sql);
+                } else {
+                    $sql = "UPDATE torniquetes SET estado = 0 WHERE id = $i";
+                    $this->Torniquete->query($sql);
+                }
+            }
+            $this->Session->setFlash(__('Torniquetes Bloqueados.'));
+            return $this->redirect(array('action' => 'bloqueo'));
+            
+        } else{
+            $sql = "UPDATE torniquetes SET reset = 1";
+            $this->Torniquete->query($sql);
+            $this->Session->setFlash(__('Todos los contadores en ceros.'));
+            return $this->redirect(array('action' => 'bloqueo'));
+        }
+        }
+        $blo = "SELECT estado FROM torniquetes WHERE  locacione_id = 1 AND grupo_id = 1";
+        $bloqueados= $this->Torniquete->query($blo);
+        foreach ($bloqueados as $key => $value) {
+            $bl[$key] = $value['torniquetes']['estado'];
+        }
+        $blo = "SELECT estado FROM torniquetes WHERE locacione_id = 1 AND grupo_id = 2";
+        $bloqueados= $this->Torniquete->query($blo);
+        foreach ($bloqueados as $key => $value) {
+            $bl2[$key] = $value['torniquetes']['estado'];
+        }
+        $blo = "SELECT estado FROM torniquetes WHERE locacione_id = 2 AND grupo_id = 1";
+        $bloqueados= $this->Torniquete->query($blo);
+        foreach ($bloqueados as $key => $value) {
+            $bl3[$key] = $value['torniquetes']['estado'];
+        }
+        $blo = "SELECT estado FROM torniquetes WHERE locacione_id = 2 AND grupo_id = 2";
+        $bloqueados= $this->Torniquete->query($blo);
+        foreach ($bloqueados as $key => $value) {
+            $bl4[$key] = $value['torniquetes']['estado'];
+        }
+        $sql1 = "SELECT id FROM torniquetes WHERE locacione_id = 1 AND grupo_id = 1";
+        $entrada1_derecha = $this->Torniquete->query($sql1);
+        foreach ($entrada1_derecha as $key => $value) {
+            $ent[$key] = $value['torniquetes']['id'];
+        }
+        $sql2 = "SELECT id FROM torniquetes WHERE locacione_id = 1 AND grupo_id = 2";
+        $entrada1_izquierda = $this->Torniquete->query($sql2);
+        foreach ($entrada1_izquierda as $key => $value) {
+            $entr[$key] = $value['torniquetes']['id'];
+        }
+        $sql3 = "SELECT id FROM torniquetes WHERE locacione_id = 2 AND grupo_id = 1";
+        $entrada2_derecha = $this->Torniquete->query($sql3);
+        foreach ($entrada2_derecha as $key => $value) {
+            $entra[$key] = $value['torniquetes']['id'];
+        }
+        $sql4 = "SELECT id FROM torniquetes WHERE locacione_id = 2 AND grupo_id = 2";
+        $entrada2_izquierda = $this->Torniquete->query($sql4);
+        foreach ($entrada2_izquierda as $key => $value) {
+            $entrad[$key] = $value['torniquetes']['id'];
+        }
+        $this->set(compact('ent', 'entr', 'entra', 'entrad', 'bl', 'bl2', 'bl3', 'bl4'));
+    }
+
+    public function input() {
+        $this->layout = "webservices";
+        $locacione_id = $this->request->data['locacion'];
+        //debug($state_id);
+        $options = array(
+            "conditions" => array(
+                "Torniquete.locacione_id" => $locacione_id,
+            ),
             "fields" => array(
                 "Torniquete.id"
-        )));
-        foreach ($tor as $key => $value) {
-            $torniquetes[$value] = "Torniquete " . $value;
-        }
-        $this->set(compact('torniquetes', 'locaciones', 'locaciones2'));        
+            ),
+            "recursive" => 0
+        );
+        $datos = $this->Torniquete->find('all', $options);
+        $log = $this->Torniquete->getDataSource()->getLog(false, false);
+        $this->set(
+                array(
+                    "datos" => $datos,
+                    "_serialize" => array("datos")
+                )
+        );
+    }
+    
+    public function reestablecer(){
+       
     }
 
 }

@@ -1,26 +1,42 @@
-<div class="users form">
-<?php echo $this->Form->create('User'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit User'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('usuario');
-		echo $this->Form->input('password');
-		echo $this->Form->input('nombres');
-		echo $this->Form->input('apellidos');
-		echo $this->Form->input('documento');
-		echo $this->Form->input('telefono');
-		echo $this->Form->input('direccion');
-		echo $this->Form->input('cargo');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('User.id')), array(), __('Are you sure you want to delete # %s?', $this->Form->value('User.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?></li>
-	</ul>
+<div class="users form" align="center">
+    <?php echo $this->Form->create('User'); ?>
+    <fieldset>
+        <h1><legend><?php echo __('Editar Usuario'); ?></legend></h1>
+        <br>
+        <?php
+        echo $this->Form->input('id');
+        ?>
+        <table>
+            <tr>
+                <td>Nombre de Usuario</td>
+                <td><?php echo $this->Form->input('username', array('label' => '')); ?></td>
+                <td>Contraseña</td>
+                <td><?php echo $this->Form->input('password', array('label'=>'')); ?></td>
+            </tr>
+            <tr>
+                <td>Nombres</td>
+                <td><?php echo $this->Form->input('nombres', array('label'=>''));?></td>
+                <td>Apellidos</td>
+                <td><?php echo $this->Form->input('apellidos', array('label'=>'')); ?></td>
+            </tr>
+            <tr>
+                <td>Documento</td>
+                <td><?php echo $this->Form->input('documento', array('label'=>''));?></td>
+                <td>Teléfono</td>
+                <td><?php echo $this->Form->input('telefono', array('label'=>'')); ?></td>
+            </tr>
+            <tr>
+                <td>Dirección</td>
+                <td><?php echo $this->Form->input('direccion', array('label'=>''));?></td>
+                <td>Cargo</td>
+                <td><?php echo $this->Form->input('cargo', array('label'=>''));?></td>
+            </tr>
+            <tr>
+                <td>Dependencia</td>
+                <td><?php echo $this->Form->input('group_id', array('label'=>''));?></td>
+                
+            </tr>
+        </table>        
+    </fieldset>
+    <?php echo $this->Form->end(__('odificar')); ?>
 </div>

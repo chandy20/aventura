@@ -1,6 +1,6 @@
 <div class="locaciones index" align='center'>
 	<h1><?php echo __('Entradas'); ?></h1>
-	<table cellpadding="0" cellspacing="0">
+	<table cellpadding="0" cellspacing="0" class="container">
 	<thead>
 	<tr>
 			<!--<th><?php echo $this->Paginator->sort('id', ''); ?></th>-->
@@ -18,7 +18,7 @@
 		<td><?php echo h($locacione['Locacione']['nombre_locacion']); ?>&nbsp;</td>
 		<td><?php echo h($locacione['Locacione']['descripcion']); ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $locacione['Locacione']['id'])); ?>
+			<?php // echo $this->Html->link(__('View'), array('action' => 'view', $locacione['Locacione']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $locacione['Locacione']['id'])); ?>
 			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $locacione['Locacione']['id']), array(), __('Are you sure you want to delete # %s?', $locacione['Locacione']['id'])); ?>
 		</td>
