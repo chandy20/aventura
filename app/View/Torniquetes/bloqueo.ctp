@@ -40,7 +40,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
             <tr>
                 <td><?php
                     if ($v > $i) {
-                        if ($bl[$i] == '1') {
+                        if ($bl[$i] == '0') {
                             echo($this->Form->input($a[$i], array('label' => 'Torniquete ' . $a[$i], 'type' => 'checkbox', 'value' => $a[$i], 'checked' => 'true')));
                         } else {
                             echo($this->Form->input($a[$i], array('label' => 'Torniquete ' . $a[$i], 'type' => 'checkbox', 'value' => $a[$i])));
@@ -50,7 +50,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><?php
                     if ($v2 > $i) {
-                        if ($bl2[$i] == '1') {
+                        if ($bl2[$i] == '0') {
                             echo($this->Form->input($b[$i], array('label' => 'Torniquete ' . $b[$i], 'type' => 'checkbox', 'value' => $b[$i], 'checked' => 'true')));
                         } else {
                             echo($this->Form->input($b[$i], array('label' => 'Torniquete ' . $b[$i], 'type' => 'checkbox', 'value' => $b[$i])));
@@ -60,7 +60,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><?php
                     if ($v3 > $i) {
-                        if ($bl3[$i] == '1') {
+                        if ($bl3[$i] == '0') {
                             echo($this->Form->input($c[$i], array('label' => 'Torniquete ' . $c[$i], 'type' => 'checkbox', 'value' => $c[$i], 'checked' => 'true')));
                         } else {
                             echo($this->Form->input($c[$i], array('label' => 'Torniquete ' . $c[$i], 'type' => 'checkbox', 'value' => $c[$i])));
@@ -70,7 +70,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><?php
                     if ($v4 > $i) {
-                        if ($bl4[$i] == '1') {
+                        if ($bl4[$i] == '0') {
                             echo($this->Form->input($d[$i], array('label' => 'Torniquete ' . $d[$i], 'type' => 'checkbox', 'value' => $d[$i], 'checked' => 'true')));
                         } else {
                             echo($this->Form->input($d[$i], array('label' => 'Torniquete ' . $d[$i], 'type' => 'checkbox', 'value' => $d[$i])));

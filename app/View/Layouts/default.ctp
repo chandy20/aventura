@@ -45,6 +45,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <?= $this->Html->script("jquery"); ?>
         <?= $this->Html->script("highstock"); ?>
         <?= $this->Html->script("exporting"); ?>
+        <?= $this->Html->script("highcharts"); ?>
         <?= $this->Html->script("operaciones"); ?>
         <?= $this->Html->script("jquery.min"); ?>
     </head>

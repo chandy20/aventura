@@ -184,33 +184,31 @@ class TorniquetesController extends AppController {
             $fecha = $this->request->data["fecha"];
             $torniquete = $this->request->data["torniquete"];
             $entrada = $this->request->data["entrada"];
-
+            $this->loadModel("EntradasSalidasHora");
             if ($entrada != "") {
                 if ($entrada == 0) {
-                    $options = array(
-                        "conditions" => array(
-                            "EntradasSalidasDiasParque.fecha" => $fecha
-                        ),
-                        "fields" => array(
-                            "EntradasSalidasDiasParque.entradas",
-                            "EntradasSalidasDiasParque.salidas"
-                        ),
-                        "recursive" => 0
-                    );
-                    $datos = $this->EntradasSalidasDiasParque->find("all", $options);
-                    $log = $this->EntradasSalidasDiasParque->getDataSource()->getLog(false, false);
-                }
-            } else if ($entrada != 0) {
-//                debug("1");
-                $d = $this->EntradasSalidasDiasParque->query("SELECT sum(e.`entradas`) as entradas, sum(e.`salidas`) as salidas FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id` = e.`torniquete_id` INNER JOIN `locaciones` l ON l.`id` = t.`locacione_id` WHERE l.`id` = $entrada AND e.`fecha` = '$fecha'");
-                foreach ($d as $key => $value) {
-                    $datos ['EntradasSalidasDiasParque'] = $value[0];
+                    $d = $this->EntradasSalidasHora->query("SELECT SUM(`entradas`) as entradas,SUM(`salidas`)as salidas, fecha as fecha FROM `entradas_salidas_horas` WHERE fecha LIKE '$fecha %' group by fecha");
+//                   
+                    for ($i = 0; $i < count($d); $i++) {
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i][0]['entradas'];
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i][0]['salidas'];
+                        $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
+                    }
+                } else if ($entrada != 0) {
+                    $d = $this->EntradasSalidasHora->query("SELECT sum(e.`entradas`) as entradas,sum(e.`salidas`) as salidas, e.fecha as fecha FROM `entradas_salidas_horas` e INNER JOIN torniquetes t ON e.torniquete_id = t.id WHERE t.locacione_id = $entrada AND e.fecha LIKE '$fecha%' group by fecha");
+//                   
+                    for ($i = 0; $i < count($d); $i++) {
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i][0]['entradas'];
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i][0]['salidas'];
+                        $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['e']['fecha'];
+                    }
                 }
             } else {
-//                debug("aqui");
-                $d = $this->EntradasSalidasDiasParque->query("SELECT sum(e.`entradas`) as entradas, sum(e.`salidas`) as salidas FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id` = e.`torniquete_id` INNER JOIN `locaciones` l ON l.`id` = t.`locacione_id` WHERE t.`id` = $torniquete AND e.`fecha` = '$fecha'");
-                foreach ($d as $key => $value) {
-                    $datos ['EntradasSalidasDiasParque'] = $value[0];
+                $d = $this->EntradasSalidasDiasParque->query("SELECT `entradas`,`salidas`,fecha as fecha FROM `entradas_salidas_horas` WHERE `fecha` LIKE '$fecha%' AND `torniquete_id`= $torniquete");
+                for ($i = 0; $i < count($d); $i++) {
+                    $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i]['entradas_salidas_horas']['entradas'];
+                    $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i]['entradas_salidas_horas']['salidas'];
+                    $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
                 }
             }
         } else if ($vista == 1) {
@@ -253,15 +251,18 @@ class TorniquetesController extends AppController {
             $locacione_id = $this->request->data["locacion"];
             $torniquete_id = $this->request->data["torniquete"];
             $hora = $this->request->data["hora"];
-            $fecha = $this->request->data["fecha"] . " " . $hora . ":00:00";
+            if ($hora == '0') {
+                $hora = '00';
+            }
+            $fecha = $this->request->data["fecha"] . " " . $hora . ":00:00.000000";
             if ($locacione_id != null || $locacione_id != "") {
                 if ($locacione_id == 0) {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_minutos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha'");
+                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_horas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha'");
                     foreach ($d as $key => $value) {
                         $datos ['EntradasSalidasDiasParque'] = $value[0];
                     }
                 } else if ($locacione_id != 0) {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_minutos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`locacione_id` = $locacione_id");
+                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_horas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`locacione_id` = $locacione_id");
                     foreach ($d as $key => $value) {
                         $datos ['EntradasSalidasDiasParque'] = $value[0];
                     }
@@ -269,8 +270,7 @@ class TorniquetesController extends AppController {
             } else {
                 $torniquete_id = $this->request->data["torniquete"];
                 $hora = $this->request->data["hora"];
-                $fecha = $this->request->data["fecha"] . " " . $hora . ":00:00";
-                $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_minutos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`id` = $torniquete_id");
+                $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_horas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`id` = $torniquete_id");
                 foreach ($d as $key => $value) {
                     $datos ['EntradasSalidasDiasParque'] = $value[0];
                 }
@@ -398,45 +398,44 @@ class TorniquetesController extends AppController {
 
     public function bloqueo() {
         if ($this->request->is('post')) {
-            $torniquetes = $this->request->data; 
-            if($torniquetes != array()){
-            for ($i = 1; $i <= count($torniquetes['Torniquetes']); $i++) {
-                $id = $torniquetes['Torniquetes'][$i];
-                if ($id != 0) {
-                    $sql = "UPDATE torniquetes SET estado = 1 WHERE id = $id";
-                    $this->Torniquete->query($sql);
-                } else {
-                    $sql = "UPDATE torniquetes SET estado = 0 WHERE id = $i";
-                    $this->Torniquete->query($sql);
+            $torniquetes = $this->request->data;
+            if ($torniquetes != array()) {
+                for ($i = 1; $i <= count($torniquetes['Torniquetes']); $i++) {
+                    $id = $torniquetes['Torniquetes'][$i];
+                    if ($id != 0) {
+                        $sql = "UPDATE torniquetes SET estado = 0 WHERE id = $id";
+                        $this->Torniquete->query($sql);
+                    } else {
+                        $sql = "UPDATE torniquetes SET estado = 1 WHERE id = $i";
+                        $this->Torniquete->query($sql);
+                    }
                 }
+                $this->Session->setFlash(__('Torniquetes Bloqueados.'));
+                return $this->redirect(array('action' => 'bloqueo'));
+            } else {
+                $sql = "UPDATE torniquetes SET reset = 1";
+                $this->Torniquete->query($sql);
+                $this->Session->setFlash(__('Todos los contadores en ceros.'));
+                return $this->redirect(array('action' => 'bloqueo'));
             }
-            $this->Session->setFlash(__('Torniquetes Bloqueados.'));
-            return $this->redirect(array('action' => 'bloqueo'));
-            
-        } else{
-            $sql = "UPDATE torniquetes SET reset = 1";
-            $this->Torniquete->query($sql);
-            $this->Session->setFlash(__('Todos los contadores en ceros.'));
-            return $this->redirect(array('action' => 'bloqueo'));
-        }
         }
         $blo = "SELECT estado FROM torniquetes WHERE  locacione_id = 1 AND grupo_id = 1";
-        $bloqueados= $this->Torniquete->query($blo);
+        $bloqueados = $this->Torniquete->query($blo);
         foreach ($bloqueados as $key => $value) {
             $bl[$key] = $value['torniquetes']['estado'];
         }
         $blo = "SELECT estado FROM torniquetes WHERE locacione_id = 1 AND grupo_id = 2";
-        $bloqueados= $this->Torniquete->query($blo);
+        $bloqueados = $this->Torniquete->query($blo);
         foreach ($bloqueados as $key => $value) {
             $bl2[$key] = $value['torniquetes']['estado'];
         }
         $blo = "SELECT estado FROM torniquetes WHERE locacione_id = 2 AND grupo_id = 1";
-        $bloqueados= $this->Torniquete->query($blo);
+        $bloqueados = $this->Torniquete->query($blo);
         foreach ($bloqueados as $key => $value) {
             $bl3[$key] = $value['torniquetes']['estado'];
         }
         $blo = "SELECT estado FROM torniquetes WHERE locacione_id = 2 AND grupo_id = 2";
-        $bloqueados= $this->Torniquete->query($blo);
+        $bloqueados = $this->Torniquete->query($blo);
         foreach ($bloqueados as $key => $value) {
             $bl4[$key] = $value['torniquetes']['estado'];
         }
@@ -484,10 +483,6 @@ class TorniquetesController extends AppController {
                     "_serialize" => array("datos")
                 )
         );
-    }
-    
-    public function reestablecer(){
-       
     }
 
 }

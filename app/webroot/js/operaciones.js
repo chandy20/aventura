@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+//var urlbase = "http://172.16.1.50/aventura/";
 var urlbase = "http://localhost/aventura/";
 function ajax(url2, datos, callback)
 {

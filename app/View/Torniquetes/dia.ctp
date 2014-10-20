@@ -56,67 +56,78 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                 ajax(url2, datos2, function(xml) {
 
                     $("datos", xml).each(function() {
-                        var obj = $(this).find("EntradasSalidasDiasParque");
-                        var x, y;
-                        x = $("entradas", obj).text();
-                        y = $("salidas", obj).text();
-
-                        reporte(x, y);
+                        var obj = $(this).find("EntradasSalidasHora");
+                        inicio = 11;
+                        final = 13;
+                        var x = 0;
+                        for (var i = 0; i <= 23; i++) {
+                            if (i >= 9 && i <= 22) {
+                                fecha = $("fecha" + x, obj).text();
+                                hora = parseInt(fecha.substring(inicio, final));
+                                if(hora === i){
+                                    window ['e' + i] = parseInt($("entradas" + x, obj).text());
+                                    window ['s' + i] = parseInt($("salidas" + x, obj).text());
+                                    x++;
+                                }
+                                else {
+                                    window ['e' + i] = 0;
+                                    window ['s' + i] = 0;
+                                }
+                            }
+                            
+                        }
+//                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
+                        reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22);
                     });
 
                 });
-            }else{
+            } else {
                 alert("Debe especificar la fecha para la consulta");
             }
         } else {
             alert("Debe primero seleccionar un torniquete o una Entrada");
         }
     });
-    function reporte(x, z) {
-        var a = parseInt(x);
-        var b = parseInt(z);
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'graficaCircular'
-            },
-            title: {
-                text: 'Cantidad de Entradas/Salidas'
-            },
-            subtitle: {
-                text: 'Mundo Aventura'
-            },
-            plotArea: {
-                shadow: null,
-                borderWidth: null,
-                backgroundColor: null
-            },
-            tooltip: {
-                formatter: function() {
-                    return '<b>' + this.point.name + '</b>: ' + this.y;
-                }
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    dataLabels: {
-                        enabled: true,
-                        color: '#000000',
-                        connectorColor: '#000000',
-                        formatter: function() {
-                            return '<b>' + this.point.name + '</b>: ' + this.y;
-                        }
-                    }
-                }
-            },
-            series: [{
-                    type: 'pie',
-                    name: 'Browser share',
-                    data: [
-                        ['Entradas', a],
-                        ['Salidas', b]
-                    ]
-                }]
-        });
+    function reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22) {
+        var fecha = $("#TorniquetesFecha").val(),
+                chart = new Highcharts.Chart({
+                    title: {
+                        text: 'Entradas y Salidas del día ' + fecha,
+                        x: -20 //center
+                    },
+                    chart: {
+                        renderTo: 'graficaCircular'
+                    },
+                    xAxis: {
+                        categories: ['09:00', '10:00', '11:00', '12:00', '13:00',
+                            '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Cantidad de entradas/Salidas'
+                        },
+                        plotLines: [{
+                                value: 0,
+                                width: 1,
+                                color: '#808080'
+                            }]
+                    },
+                    tooltip: {
+                        valueSuffix: ' Personas'
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    series: [{
+                            name: 'Entradas',
+                            data: [e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22]
+                        }, {
+                            name: 'Salidas',
+                            data: [s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22]
+                        }]
+                });
     }
 </script>
