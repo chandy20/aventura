@@ -168,8 +168,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
                 for (var i = 5; i <= 8; i++) {
                     $("#Torniquetes"+i).attr('checked', 'checked');
                 }
-                $("#b_gama").val('1\n\
-        ');
+                $("#b_gama").val('1');
                 $("#b_gama_d").val('1');
             }
         });
