@@ -7,22 +7,23 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
     <h1>Bloqueo/Desbloqueo de Torniquetes</h1><br>
     <table cellspacing="10%" cellpading="10%">
         <tr>
-            <td colspan="7" align="center"><h1><input type="button" id="todos" name="todos" id="todos" value="Todos"></h1></td>
+            <td colspan="7" align="center"><a id="todos" name="todos" style="cursor:pointer"><h2>PARQUE</h2></a></td>
         </tr>
         <tr>
-            <td colspan="3" align="center"><h2>GAMA</h2></td>
+            <td colspan="3" align="center"><a name="gama" id="gama" style="cursor:pointer"><h2>GAMA</h2></a></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td colspan="3" align="center"><h2>AMBAR NORTE</h2></td>
+            <td colspan="3" align="center"><a name="ambar" id="ambar" style="cursor:pointer" ><h2>AMBAR NORTE</h2></a></td>
         </tr>
         <tr>
-            <td align="center"><H2>DERECHA</H2></td>
+            <td align="center"><a id="g_i" name="g_i" style="cursor:pointer"><H2>IZQUIERDA</H2></a></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td align="center"><h2>IZQUIERDA</h2></td>
+            <td align="center"><a id="g_d" name="g_d" style="cursor:pointer"><h2>DERECHA</h2></a></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td align="center"><H2>DERECHA</H2></td>
+            <td align="center"><a id="a_i" name="a_i" style="cursor:pointer"><H2>IZQUIERDA</H2></a></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td align="center"><h2>IZQUIERDA</h2></td>
+            <td align="center"><a id="a_d" name="a_d" style="cursor:pointer"><h2>DERECHA</h2></a></td>
         </tr>
+
         <?php
         $a = $ent;
         $v = count($a);
@@ -80,7 +81,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
 
                 <?php
             }
-            ?>
+            ?>        
         </tr>
     </table>
 
@@ -90,7 +91,8 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
     <br>        
 </div>
 <div align="center"><?php echo $this->Form->end(__('Operación')); ?></div>
-
+<br>
+<div align="center"><h3><?php echo ("Nota: Los los torniquetes bloqueados aparecen marcados, los desbloqueados NO"); ?></h3></div>
 <div align="center">
     <?php echo $this->Form->create('Torniquetes'); ?>
     <br>
@@ -102,6 +104,9 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
 </div>
 </form>
 <input type="hidden" name="bandera" id="bandera" value="1">
+<input type="hidden" name="b_gama" id="b_gama" value="1">
+<input type="hidden" name="b_gama_i" id="b_gama_i" value="1">
+<input type="hidden" name="b_gama_d" id="b_gama_d" value="1">
 
 
 <script>
@@ -114,6 +119,58 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
             } else {
                 $('input:checkbox').attr('checked', 'checked');
                 $("#bandera").val('1');
+            }
+        });
+        $("#gama").click(function() {               
+            var b_gama = $("#b_gama").val();
+            if (b_gama === '1') {
+                for (var i = 1; i <= 8; i++) {
+                    $("#Torniquetes"+i).removeAttr('checked');
+                }
+                $("#b_gama").val('2');
+                $("#b_gama_i").val('2');
+                $("#b_gama_d").val('2');
+            } else {
+                for (var j = 1; j <= 8; j++) {
+                    $("#Torniquetes"+j).attr('checked', 'checked');
+                }
+                $("#b_gama").val('1');
+                $("#b_gama_i").val('1');
+                $("#b_gama_d").val('1');
+                
+            }
+        });
+        $("#g_i").click(function() {               
+            var b_gama_i = $("#b_gama_i").val();
+            if (b_gama_i === '1') {
+                for (var k = 1; k <= 4; k++) {
+                    $("#Torniquetes"+k).removeAttr('checked');
+                }
+                $("#b_gama_i").val('2');
+                $("#b_gama").val('2');
+            } else {
+                for (var k = 1; k <= 4; k++) {
+                    $("#Torniquetes"+k).attr('checked', 'checked');
+                }
+                $("#b_gama_i").val('1');
+                $("#b_gama").val('1');
+            }
+        });
+        $("#g_d").click(function() {               
+            var b_gama_d = $("#b_gama_d").val();
+            if (b_gama_d === '1') {
+                for (var i = 5; i <= 8; i++) {
+                    $("#Torniquetes"+i).removeAttr('checked');
+                }
+                $("#b_gama").val('2');
+                $("#b_gama_d").val('2');
+            } else {
+                for (var i = 5; i <= 8; i++) {
+                    $("#Torniquetes"+i).attr('checked', 'checked');
+                }
+                $("#b_gama").val('1\n\
+        ');
+                $("#b_gama_d").val('1');
             }
         });
         $("#entrada1").click(function() {

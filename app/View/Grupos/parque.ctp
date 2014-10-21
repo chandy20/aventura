@@ -9,9 +9,9 @@
                     <td><img src="../app/webroot/img/turnstile.png" width="100" height="148" style="cursor:pointer" id="tor"></a></td>
                 </tr>                
                 <tr>
-                    <td><h2 style="cursor:pointer" id="usua">Usuarios</h2></td>
-                    <td><h2 style="cursor:pointer" id="dor">Entradas</h2></td>
-                    <td><h2 style="cursor:pointer" id="to">Torniqetes</h2></a></td>
+                    <td><h2 style="cursor:pointer" id="usua">USUARIOS</h2></td>
+                    <td><h2 style="cursor:pointer" id="dor">ENTRADAS</h2></td>
+                    <td><h2 style="cursor:pointer" id="to">TORNIQUETES</h2></a></td>
                 </tr>                 
             </table>
             <div id="access" name="access" style="display:none">
@@ -25,12 +25,12 @@
                         <td><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "index")) ?>"><img src="../app/webroot/img/door.png"></a></td>
                     </tr>                
                     <tr>
-                        <td><h3 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "add")) ?>">Crear Entrada</a></h3></td>
+                        <td><h2 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "add")) ?>">Crear Entrada</a></h2></td>
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <?php //echo '	 '?>
                         </td>
-                        <td><h3 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "index")) ?>">Ver Entradas</a></h3></a></td>
+                        <td><h2 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "index")) ?>">Ver Entradas</a></h2></a></td>
                     </tr>                 
                 </table>
             </div>
@@ -45,12 +45,12 @@
                         <td><a href="<?= $this->Html->url(array("controller" => "Users", "action" => "index")) ?>"><img src="../app/webroot/img/users.png"></a></td>
                     </tr>                
                     <tr>
-                        <td><h3 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Users", "action" => "add")) ?>">Crear Usuario</a></h3></td>
+                        <td><h2 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Users", "action" => "add")) ?>">Crear Usuario</a></h2></td>
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <?php //echo '	 '?>
                         </td>
-                        <td><h3 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Users", "action" => "index")) ?>">Ver Usuarios</a></h3></a></td>
+                        <td><h2 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Users", "action" => "index")) ?>">Ver Usuarios</a></h2></a></td>
                     </tr>                 
                 </table>
             </div>
@@ -70,17 +70,17 @@
                         <td><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "bloqueo")) ?>"><img src="../app/webroot/img/turnstile.png" width="100" height="148"></a></td>
                     </tr>                
                     <tr>
-                        <td><h3 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "add")) ?>">Crear Torniquete</a></h3></td>
+                        <td><h2 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "add")) ?>">Crear Torniquete</a></h2></td>
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <?php //echo '	 '?>
                         </td>
-                        <td><h3 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "index")) ?>">Ver Torniquetes</a></h3></a></td>
+                        <td><h2 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "index")) ?>">Ver Torniquetes</a></h2></a></td>
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <?php //echo '	 '?>
                         </td>
-                        <td><h3 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "bloqueo")) ?>">Bloquear/desbloquear</a></h3></a></td>
+                        <td><h2 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "bloqueo")) ?>">Bloquear/desbloquear</a></h2></a></td>
                     </tr>                 
                 </table>
             </div>
