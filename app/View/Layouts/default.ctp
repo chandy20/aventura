@@ -37,7 +37,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8" />
         <meta name = "viewport" content = "width=device-width, initial-scale=1, maximum-scale=1">
         <!--google fonts-->
-        <link href = 'http://fonts.googleapis.com/css?family=Merriweather+Sans' rel = 'stylesheet' type = 'text/css'>
+       
         <!--end google fonts -->
         <!--<link href = "css/style.css" rel = "stylesheet" type = "text/css" media = "all" />-->
         <?= $this->Html->css("style"); ?>
@@ -63,6 +63,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                                 <li><a class = "home" href="http://localhost/aventura" ></a></li>
                                 <li><a href="<?= $this->Html->url(array("controller" => "Grupos", "action" => "parque")) ?>">Parque</a></li>
                                 <li><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "reportes")) ?>">Reportes</a></li>
+                                <li><a href="<?= $this->Html->url(array("controller" => "users", "action" => "logout")); ?>">Cerrar Sesión</a></li>
                                 <div class = "clear"></div>
                             </ul>
                         </div>
@@ -76,7 +77,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <!--start main -->
         <div class = "wrap">
             <div class = "wrapper">
-                <div class = "main">
+                <div class = "main" align="center">
                     <?php
                     echo $this->Session->flash();
                     ?>

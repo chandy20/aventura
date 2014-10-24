@@ -188,27 +188,43 @@ class TorniquetesController extends AppController {
             if ($entrada != "") {
                 if ($entrada == 0) {
                     $d = $this->EntradasSalidasHora->query("SELECT SUM(`entradas`) as entradas,SUM(`salidas`)as salidas, fecha as fecha FROM `entradas_salidas_horas` WHERE fecha LIKE '$fecha %' group by fecha");
-//                   
-                    for ($i = 0; $i < count($d); $i++) {
-                        $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i][0]['entradas'];
-                        $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i][0]['salidas'];
-                        $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
+                    if ($d != array()) {
+                        for ($i = 0; $i < count($d); $i++) {
+                            $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i][0]['entradas'];
+                            $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i][0]['salidas'];
+                            $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
+                        }
+                    } else {
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = 0;
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = 0;
+                        $datos ['EntradasSalidasHora']['fecha' . $i] = 0;
                     }
                 } else if ($entrada != 0) {
                     $d = $this->EntradasSalidasHora->query("SELECT sum(e.`entradas`) as entradas,sum(e.`salidas`) as salidas, e.fecha as fecha FROM `entradas_salidas_horas` e INNER JOIN torniquetes t ON e.torniquete_id = t.id WHERE t.locacione_id = $entrada AND e.fecha LIKE '$fecha%' group by fecha");
-//                   
-                    for ($i = 0; $i < count($d); $i++) {
-                        $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i][0]['entradas'];
-                        $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i][0]['salidas'];
-                        $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['e']['fecha'];
+                    if ($d != array()) {
+                        for ($i = 0; $i < count($d); $i++) {
+                            $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i][0]['entradas'];
+                            $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i][0]['salidas'];
+                            $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['e']['fecha'];
+                        }
+                    } else {
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = 0;
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = 0;
+                        $datos ['EntradasSalidasHora']['fecha' . $i] = 0;
                     }
                 }
             } else {
                 $d = $this->EntradasSalidasDiasParque->query("SELECT `entradas`,`salidas`,fecha as fecha FROM `entradas_salidas_horas` WHERE `fecha` LIKE '$fecha%' AND `torniquete_id`= $torniquete");
-                for ($i = 0; $i < count($d); $i++) {
-                    $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i]['entradas_salidas_horas']['entradas'];
-                    $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i]['entradas_salidas_horas']['salidas'];
-                    $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
+                if ($d != array()) {
+                    for ($i = 0; $i < count($d); $i++) {
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i]['entradas_salidas_horas']['entradas'];
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i]['entradas_salidas_horas']['salidas'];
+                        $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
+                    }
+                } else {
+                    $datos ['EntradasSalidasHora']['entradas' . $i] = 0;
+                    $datos ['EntradasSalidasHora']['salidas' . $i] = 0;
+                    $datos ['EntradasSalidasHora']['fecha' . $i] = 0;
                 }
             }
         } else if ($vista == 1) {
@@ -398,10 +414,11 @@ class TorniquetesController extends AppController {
 
     public function bloqueo() {
         if ($this->request->is('post')) {
-            $torniquetes = $this->request->data;
+            $torniquetes = $this->request->data['Torniquetes'];
+            $torniquetes2 = $this->request->data['Torniquetes2'];
             if ($torniquetes != array()) {
-                for ($i = 1; $i <= count($torniquetes['Torniquetes']); $i++) {
-                    $id = $torniquetes['Torniquetes'][$i];
+                for ($i = 1; $i <= count($torniquetes); $i++) {
+                    $id = $torniquetes[$i];
                     if ($id != 0) {
                         $sql = "UPDATE torniquetes SET estado = 0 WHERE id = $id";
                         $this->Torniquete->query($sql);
@@ -410,12 +427,17 @@ class TorniquetesController extends AppController {
                         $this->Torniquete->query($sql);
                     }
                 }
-                $this->Session->setFlash(__('Torniquetes Bloqueados.'));
+                $this->Session->setFlash(__('Operación exitosa'));
                 return $this->redirect(array('action' => 'bloqueo'));
             } else {
-                $sql = "UPDATE torniquetes SET reset = 1";
-                $this->Torniquete->query($sql);
-                $this->Session->setFlash(__('Todos los contadores en ceros.'));
+                for ($i = 1; $i <= count($torniquetes2); $i++) {
+                    $id = $torniquetes2[$i];
+                    if ($id != 0) {
+                        $sql = "UPDATE torniquetes SET reset = 1 WHERE id = $id";
+                        $this->Torniquete->query($sql);
+                    }
+                }
+                $this->Session->setFlash(__('Contadores en ceros.'));
                 return $this->redirect(array('action' => 'bloqueo'));
             }
         }
