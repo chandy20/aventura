@@ -131,7 +131,7 @@ class UsersController extends AppController {
         parent::beforeFilter();
 
         // For CakePHP 2.1 and up
-        //$this->Auth->allow();
+        $this->Auth->allow("initDB");
     }
 
     public function initDB() {
@@ -141,12 +141,13 @@ class UsersController extends AppController {
         $group->id = 1;
         $this->Acl->allow($group, 'controllers');
 
-      // allow managers to posts and widgets
+      // permitir reportes
         $group->id = 2;
         $this->Acl->deny($group, 'controllers');
         $this->Acl->allow($group, 'controllers/Torniquetes');
-
-      // allow users to only add and edit on posts and widgets
+        $this->Acl->allow($group, 'controllers/Pages');
+        $this->Acl->allow($group, 'controllers/users/logout');
+      // permitir manejo del parque
         $group->id = 3;
         $this->Acl->deny($group, 'controllers');
         $this->Acl->allow($group, 'controllers/Grupos/parque');
@@ -154,7 +155,8 @@ class UsersController extends AppController {
         $this->Acl->allow($group, 'controllers/Locaciones');
         $this->Acl->allow($group, 'controllers/Torniquetes/add');
         $this->Acl->allow($group, 'controllers/Torniquetes/index');
-        $this->Acl->allow($group, 'controllers/Torniquetes/bloqueo');
+        $this->Acl->allow($group, 'controllers/Torniquetes/bloqueo');        
+        $this->Acl->allow($group, 'controllers/users/logout');
 
 //      allow basic users to log out
         $this->Acl->allow($group, 'controllers/users/logout');

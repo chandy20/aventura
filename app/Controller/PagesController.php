@@ -36,7 +36,12 @@ class PagesController extends AppController {
  * @var array
  */
 	public $uses = array();
+public function beforeFilter() {
+        parent::beforeFilter();
 
+        // For CakePHP 2.1 and up
+        $this->Auth->allow("*");
+    }
 /**
  * Displays a view
  *
