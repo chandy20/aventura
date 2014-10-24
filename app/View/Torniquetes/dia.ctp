@@ -12,7 +12,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
     <?php
     echo $this->Form->input('Torniquete_id', array(
         'label' => '',
-        "empty" => "Seleccione un torniquete"
+        "empty" => "Seleccione un torniquete",
     ));
     ?>
     <br>
@@ -60,24 +60,38 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                         inicio = 11;
                         final = 13;
                         var x = 0;
-                        for (var i = 0; i <= 23; i++) {
-                            if (i >= 9 && i <= 22) {
-                                fecha = $("fecha" + x, obj).text();
-                                hora = parseInt(fecha.substring(inicio, final));
-                                if(hora === i){
-                                    window ['e' + i] = parseInt($("entradas" + x, obj).text());
-                                    window ['s' + i] = parseInt($("salidas" + x, obj).text());
-                                    x++;
-                                }
-                                else {
-                                    window ['e' + i] = 0;
-                                    window ['s' + i] = 0;
+                        var j = 0;
+                        while (j <= 23) {
+                            fecha = $("fecha" + j, obj).text();
+                            hora = parseInt(fecha.substring(inicio, final));
+                            if (hora >= 9) {
+                                x = j;
+                                break;
+                            }
+                            j++;
+                        }
+                        if (x !== 0) {
+                            for (var i = 0; i <= 23; i++) {
+                                if (i >= 9 && i <= 22) {
+                                    fecha = $("fecha" + x, obj).text();
+                                    hora = parseInt(fecha.substring(inicio, final));
+                                    if (hora === i) {
+                                        window ['e' + i] = parseInt($("entradas" + x, obj).text());
+                                        window ['s' + i] = parseInt($("salidas" + x, obj).text());
+                                        x++;
+                                    }
+                                    else {
+                                        window ['e' + i] = 0;
+                                        window ['s' + i] = 0;
+                                    }
                                 }
                             }
-                            
+                            reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22);
+                        } else {
+                            reporte(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
                         }
 //                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
-                        reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22);
+
                     });
 
                 });
@@ -86,6 +100,22 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             }
         } else {
             alert("Debe primero seleccionar un torniquete o una Entrada");
+        }
+    });
+    $("#TorniquetesTorniqueteId").change(function() {
+        var x = $("#TorniquetesTorniqueteId").val();
+        if (x !== "") {
+            $('#TorniquetesLocacioneId').prop('disabled', 'disabled');
+        }else{
+            $('#TorniquetesLocacioneId').prop('disabled', false);
+        }       
+    });
+    $("#TorniquetesLocacioneId").change(function() {
+        var x = $("#TorniquetesLocacioneId").val();
+        if (x !== "") {
+            $('#TorniquetesTorniqueteId').prop('disabled', 'disabled');
+        }else{
+            $('#TorniquetesTorniqueteId').prop('disabled', false);
         }
     });
     function reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22) {

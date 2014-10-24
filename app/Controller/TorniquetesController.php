@@ -195,9 +195,9 @@ class TorniquetesController extends AppController {
                             $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
                         }
                     } else {
-                        $datos ['EntradasSalidasHora']['entradas' . $i] = 0;
-                        $datos ['EntradasSalidasHora']['salidas' . $i] = 0;
-                        $datos ['EntradasSalidasHora']['fecha' . $i] = 0;
+                        $datos ['EntradasSalidasHora']['entradas0'] = 0;
+                        $datos ['EntradasSalidasHora']['salidas0'] = 0;
+                        $datos ['EntradasSalidasHora']['fecha0'] = 0;
                     }
                 } else if ($entrada != 0) {
                     $d = $this->EntradasSalidasHora->query("SELECT sum(e.`entradas`) as entradas,sum(e.`salidas`) as salidas, e.fecha as fecha FROM `entradas_salidas_horas` e INNER JOIN torniquetes t ON e.torniquete_id = t.id WHERE t.locacione_id = $entrada AND e.fecha LIKE '$fecha%' group by fecha");
@@ -208,9 +208,9 @@ class TorniquetesController extends AppController {
                             $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['e']['fecha'];
                         }
                     } else {
-                        $datos ['EntradasSalidasHora']['entradas' . $i] = 0;
-                        $datos ['EntradasSalidasHora']['salidas' . $i] = 0;
-                        $datos ['EntradasSalidasHora']['fecha' . $i] = 0;
+                        $datos ['EntradasSalidasHora']['entradas0'] = 0;
+                        $datos ['EntradasSalidasHora']['salidas0'] = 0;
+                        $datos ['EntradasSalidasHora']['fecha0'] = 0;
                     }
                 }
             } else {
@@ -222,9 +222,9 @@ class TorniquetesController extends AppController {
                         $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
                     }
                 } else {
-                    $datos ['EntradasSalidasHora']['entradas' . $i] = 0;
-                    $datos ['EntradasSalidasHora']['salidas' . $i] = 0;
-                    $datos ['EntradasSalidasHora']['fecha' . $i] = 0;
+                    $datos ['EntradasSalidasHora']['entradas0'] = 0;
+                    $datos ['EntradasSalidasHora']['salidas0'] = 0;
+                    $datos ['EntradasSalidasHora']['fecha0'] = 0;
                 }
             }
         } else if ($vista == 1) {

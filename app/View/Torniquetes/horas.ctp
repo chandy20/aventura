@@ -98,6 +98,22 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             alert("Debe primero seleccionar un torniquete o una Entrada");
         }
     });
+    $("#TorniquetesTorniqueteId").change(function() {
+        var x = $("#TorniquetesTorniqueteId").val();
+        if (x !== "") {
+            $('#TorniquetesLocacioneId').prop('disabled', 'disabled');
+        }else{
+            $('#TorniquetesLocacioneId').prop('disabled', false);
+        }       
+    });
+    $("#TorniquetesLocacioneId").change(function() {
+        var x = $("#TorniquetesLocacioneId").val();
+        if (x !== "") {
+            $('#TorniquetesTorniqueteId').prop('disabled', 'disabled');
+        }else{
+            $('#TorniquetesTorniqueteId').prop('disabled', false);
+        }
+    });
     function reporte(x, z) {
         var a = parseInt(x);
         var b = parseInt(z);
