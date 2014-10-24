@@ -10,9 +10,9 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
             <td colspan="7" align="center"><a id="todos" name="todos" style="cursor:pointer"><h2>PARQUE</h2></a></td>
         </tr>
         <tr>
-            <td colspan="3" align="center"><a name="gama" id="gama" style="cursor:pointer"><h2>GAMA</h2></a></td>
+            <td colspan="3" align="center"><a name="gama" id="gama" style="cursor:pointer"><h2>AMBAR NORTE</h2></a></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td colspan="3" align="center"><a name="ambar" id="ambar" style="cursor:pointer" ><h2>AMBAR NORTE</h2></a></td>
+            <td colspan="3" align="center"><a name="ambar" id="ambar" style="cursor:pointer" ><h2>GAMA</h2></a></td>
         </tr>
         <tr>
             <td align="center"><a id="g_i" name="g_i" style="cursor:pointer"><H2>IZQUIERDA</H2></a></td>
@@ -104,9 +104,9 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius', 'multi-select'))
             <td colspan="7" align="center"><a id="todos2" name="todos2" style="cursor:pointer"><h2>PARQUE</h2></a></td>
         </tr>
         <tr>
-            <td colspan="3" align="center"><a name="gama2" id="gama2" style="cursor:pointer"><h2>GAMA</h2></a></td>
+            <td colspan="3" align="center"><a name="gama2" id="gama2" style="cursor:pointer"><h2>AMBAR NORTE</h2></a></td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td colspan="3" align="center"><a name="ambar2" id="ambar2" style="cursor:pointer" ><h2>AMBAR NORTE</h2></a></td>
+            <td colspan="3" align="center"><a name="ambar2" id="ambar2" style="cursor:pointer" ><h2>GAMA</h2></a></td>
         </tr>
         <tr>
             <td align="center"><a id="g_i2" name="g_i2" style="cursor:pointer"><H2>IZQUIERDA</H2></a></td>

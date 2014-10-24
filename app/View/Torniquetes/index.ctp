@@ -8,8 +8,8 @@
                 <th><?php echo $this->Paginator->sort('tipo_id', 'Tipo'); ?></th>
                 <th><?php echo $this->Paginator->sort('locacione_id', 'Entrada'); ?></th>
                 <th><?php echo $this->Paginator->sort('grupo_id', 'Grupo'); ?></th>
-                <!--<th><?php echo $this->Paginator->sort('descripcion', 'Descripcion'); ?></th>-->
-                <!--<th><?php echo $this->Paginator->sort('serial', 'Serial'); ?></th>-->
+                <th><?php echo $this->Paginator->sort('centradas', 'Entradas'); ?></th>
+                <th><?php echo $this->Paginator->sort('csalidas', 'Salidas'); ?></th>
                 <th class="actions"><?php echo __('Operaciones'); ?></th>
             </tr>
         </thead>
@@ -26,8 +26,8 @@
                     <td>
                         <?php echo ($torniquete['Grupo']['nombre_grupo']); ?>
                     </td>
-                    <!--<td><?php echo h($torniquete['Torniquete']['descripcion']); ?>&nbsp;</td>-->
-                    <!--<td><?php echo h($torniquete['Torniquete']['serial']); ?>&nbsp;</td>-->
+                    <td><?php echo h($torniquete['Torniquete']['centradas']); ?>&nbsp;</td>
+                    <td><?php echo h($torniquete['Torniquete']['csalidas']); ?>&nbsp;</td>
                     <td class="actions">
 
                         <?php echo $this->Html->link(__('Editar'), array('action' => 'edit', $torniquete['Torniquete']['id'])); ?>
