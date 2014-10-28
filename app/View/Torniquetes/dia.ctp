@@ -75,7 +75,6 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                                 window ['s' + i] = 0;
                             }
                             bandera = true;
-                            alert(window ['e' + i] + ' ' + i);
                         }
                         reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22);
                         alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
@@ -111,7 +110,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
         var total = entradas - salidas;
         chart = new Highcharts.Chart({
             title: {
-                text: 'Entradas: '+entradas+' Salidas del día: '+salidas,
+                text: 'Entradas: '+entradas+' Salidas: '+salidas ,
                 x: -20 //center
             },
             chart: {
@@ -123,7 +122,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             },
             yAxis: {
                 title: {
-                    text: 'Quedan '+ total + ' personas en el parque'
+//                    text: 'Quedan '+ total + ' personas en el parque'
                 },
                 plotLines: [{
                         value: 0,
