@@ -54,46 +54,32 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
         if ($("#TorniquetesLocacioneId").val() !== "" || $("#TorniquetesTorniqueteId").val() !== "") {
             if ($("#TorniquetesFecha").val() !== "") {
                 ajax(url2, datos2, function(xml) {
-
                     $("datos", xml).each(function() {
                         var obj = $(this).find("EntradasSalidasHora");
-                        inicio = 11;
-                        final = 13;
                         var x = 0;
-                        var j = 0;
-                        while (j <= 23) {
-                            fecha = $("fecha" + j, obj).text();
-                            hora = parseInt(fecha.substring(inicio, final));
-                            if (hora >= 9) {
-                                x = j;
-                                break;
+                        var bandera = true;
+                        for (var i = 9; i <= 23; i++) {
+                            for (var j = x; j <= 23; j++) {
+                                fecha = $("fecha" + j, obj).text();
+                                hora = parseInt(fecha.substring(11, 13));
+                                if (hora === i) {
+                                    window ['e' + i] = parseInt($("entradas" + j, obj).text());
+                                    window ['s' + i] = parseInt($("salidas" + j, obj).text());
+                                    bandera = false;
+                                    x = j;
+                                    break;
+                                } 
                             }
-                            j++;
-                        }
-                        if (x !== 0) {
-                            for (var i = 0; i <= 23; i++) {
-                                if (i >= 9 && i <= 22) {
-                                    fecha = $("fecha" + x, obj).text();
-                                    hora = parseInt(fecha.substring(inicio, final));
-                                    if (hora === i) {
-                                        window ['e' + i] = parseInt($("entradas" + x, obj).text());
-                                        window ['s' + i] = parseInt($("salidas" + x, obj).text());
-                                        x++;
-                                    }
-                                    else {
-                                        window ['e' + i] = 0;
-                                        window ['s' + i] = 0;
-                                    }
-                                }
+                            if (bandera === true) {
+                                window ['e' + i] = 0;
+                                window ['s' + i] = 0;
                             }
-                            reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22);
-                        } else {
-                            reporte(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                            bandera = true;
+                            alert(window ['e' + i] + ' ' + i);
                         }
-//                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
-
+                        reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22);
+                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
                     });
-
                 });
             } else {
                 alert("Debe especificar la fecha para la consulta");
