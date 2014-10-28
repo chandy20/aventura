@@ -91,6 +91,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
     function reporte(x, z) {
         var a = parseInt(x);
         var b = parseInt(z);
+        var c = a-b;
         chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'graficaCircular'

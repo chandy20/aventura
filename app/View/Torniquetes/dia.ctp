@@ -106,58 +106,61 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
         var x = $("#TorniquetesTorniqueteId").val();
         if (x !== "") {
             $('#TorniquetesLocacioneId').prop('disabled', 'disabled');
-        }else{
+        } else {
             $('#TorniquetesLocacioneId').prop('disabled', false);
-        }       
+        }
     });
     $("#TorniquetesLocacioneId").change(function() {
         var x = $("#TorniquetesLocacioneId").val();
         if (x !== "") {
             $('#TorniquetesTorniqueteId').prop('disabled', 'disabled');
-        }else{
+        } else {
             $('#TorniquetesTorniqueteId').prop('disabled', false);
         }
     });
     function reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22) {
-        var fecha = $("#TorniquetesFecha").val(),
-                chart = new Highcharts.Chart({
-                    title: {
-                        text: 'Entradas y Salidas del día ' + fecha,
-                        x: -20 //center
-                    },
-                    chart: {
-                        renderTo: 'graficaCircular'
-                    },
-                    xAxis: {
-                        categories: ['09:00', '10:00', '11:00', '12:00', '13:00',
-                            '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Cantidad de entradas/Salidas'
-                        },
-                        plotLines: [{
-                                value: 0,
-                                width: 1,
-                                color: '#808080'
-                            }]
-                    },
-                    tooltip: {
-                        valueSuffix: ' Personas'
-                    },
-                    legend: {
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle',
-                        borderWidth: 0
-                    },
-                    series: [{
-                            name: 'Entradas',
-                            data: [e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22]
-                        }, {
-                            name: 'Salidas',
-                            data: [s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22]
-                        }]
-                });
+        var fecha = $("#TorniquetesFecha").val();
+        var entradas = e9+e10+e11+e12+e13+e14+e15+e16+e17+e18+e19+e20+e21+e22;
+        var salidas = s9+s10+s11+s12+s13+s14+s15+s16+s17+s18+s19+s20+s21+s22;
+        var total = entradas - salidas;
+        chart = new Highcharts.Chart({
+            title: {
+                text: 'Entradas y Salidas del día ' + fecha,
+                x: -20 //center
+            },
+            chart: {
+                renderTo: 'graficaCircular'
+            },
+            xAxis: {
+                categories: ['09:00', '10:00', '11:00', '12:00', '13:00',
+                    '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
+            },
+            yAxis: {
+                title: {
+                    text: 'Cantidad de entradas/Salidas quedan '+ total + ' personas en el parque'
+                },
+                plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+            },
+            tooltip: {
+                valueSuffix: ' Personas'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                    name: 'Entradas',
+                    data: [e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22]
+                }, {
+                    name: 'Salidas',
+                    data: [s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22]
+                }]
+        });
     }
 </script>

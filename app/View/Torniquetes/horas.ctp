@@ -117,6 +117,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
     function reporte(x, z) {
         var a = parseInt(x);
         var b = parseInt(z);
+        var c = a-b;
         chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'graficaCircular'
@@ -125,7 +126,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                 text: 'Cantidad de Entradas/Salidas'
             },
             subtitle: {
-                text: 'Mundo Aventura'
+                text: 'Mundo Aventura aún quedan '+ c + ' personas en el parque'
             },
             plotArea: {
                 shadow: null,
