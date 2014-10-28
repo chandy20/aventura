@@ -30,6 +30,11 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             <th><div id="graficaCircular"></div></th>
         </tr>
     </table>
+    <table class="container">
+        <tr>
+            <th><div id="graficaCircular2"></div></th>
+        </tr>
+    </table>
 </div>
 </form>
 <script>
@@ -49,7 +54,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             fecha: $("#TorniquetesFecha").val(),
             entrada: $("#TorniquetesLocacioneId").val(),
             torniquete: $("#TorniquetesTorniqueteId").val(),
-            vista: 0
+            vista: 0            
         };
         if ($("#TorniquetesLocacioneId").val() !== "" || $("#TorniquetesTorniqueteId").val() !== "") {
             if ($("#TorniquetesFecha").val() !== "") {
@@ -68,7 +73,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                                     bandera = false;
                                     x = j;
                                     break;
-                                } 
+                                }
                             }
                             if (bandera === true) {
                                 window ['e' + i] = 0;
@@ -76,10 +81,13 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                             }
                             bandera = true;
                         }
+                        entradas = $("entradas25", obj).text();
+                        salidas = $("salidas25", obj).text();
+                        torta(entradas, salidas);
                         reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22);
-                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
+//                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
                     });
-                });
+                });                
             } else {
                 alert("Debe especificar la fecha para la consulta");
             }
@@ -105,12 +113,12 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
     });
     function reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22) {
         var fecha = $("#TorniquetesFecha").val();
-        var entradas = e9+e10+e11+e12+e13+e14+e15+e16+e17+e18+e19+e20+e21+e22;
-        var salidas = s9+s10+s11+s12+s13+s14+s15+s16+s17+s18+s19+s20+s21+s22;
+        var entradas = e9 + e10 + e11 + e12 + e13 + e14 + e15 + e16 + e17 + e18 + e19 + e20 + e21 + e22;
+        var salidas = s9 + s10 + s11 + s12 + s13 + s14 + s15 + s16 + s17 + s18 + s19 + s20 + s21 + s22;
         var total = entradas - salidas;
         chart = new Highcharts.Chart({
             title: {
-                text: 'Entradas: '+entradas+' Salidas: '+salidas ,
+                text: 'Entradas: ' + entradas + ' Salidas: ' + salidas,
                 x: -20 //center
             },
             chart: {
@@ -145,6 +153,53 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                 }, {
                     name: 'Salidas',
                     data: [s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22]
+                }]
+        });
+    }
+    function torta(x, z) {
+        var a = parseInt(x);
+        var b = parseInt(z);
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'graficaCircular2'
+            },
+            title: {
+                text: 'Entradas Totales: '+ a+'. Salidas Totales: '+b
+            },
+            subtitle: {
+                text: 'Mundo Aventura'
+            },
+            plotArea: {
+                shadow: null,
+                borderWidth: null,
+                backgroundColor: null
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>' + this.point.name + '</b>: ' + this.y;
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>' + this.point.name + '</b>: ' + this.y;
+                        }
+                    }
+                }
+            },
+            series: [{
+                    type: 'pie',
+                    name: 'Browser share',
+                    data: [
+                        ['Entradas', a],
+                        ['Salidas', b]
+                    ]
                 }]
         });
     }

@@ -156,7 +156,6 @@ class TorniquetesController extends AppController {
     }
 
     public function dia() {
-
         $locaciones = $this->Torniquete->Locacione->find('list', array(
             "fields" => array(
                 "Locacione.nombre_locacion"
@@ -176,6 +175,27 @@ class TorniquetesController extends AppController {
         $this->set(compact('tipos', 'locaciones', 'grupos', 'torniquetes'));
     }
 
+    public function cuenta() {
+        $this->layout = "webservices";
+        $this->loadModel("EntradasSalidasDiasParque");
+        $fecha = $this->request->data["fecha"];
+        $datos = $this->EntradasSalidasDiasParque->find('list', array(
+            'conditions' => array(
+                'fecha' => "$fecha"
+            ),
+            'fields' => array(
+                'EntradasSalidasDiasParque.entradas',
+                'EntradasSalidasDiasParque.salidas'
+            )
+        ));
+        $this->set(
+                array(
+                    "datos" => $datos,
+                    "_serialize" => array("datos")
+                )
+        );
+    }
+
     public function reporte() {
         $this->layout = "webservices";
         $this->loadModel("EntradasSalidasDiasParque");
@@ -188,6 +208,7 @@ class TorniquetesController extends AppController {
             if ($entrada != "") {
                 if ($entrada == 0) {
                     $d = $this->EntradasSalidasHora->query("SELECT SUM(`entradas`) as entradas,SUM(`salidas`)as salidas, fecha as fecha FROM `entradas_salidas_horas` WHERE fecha LIKE '$fecha %' group by fecha");
+
                     if ($d != array()) {
                         for ($i = 0; $i < count($d); $i++) {
                             $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i][0]['entradas'];
@@ -227,6 +248,17 @@ class TorniquetesController extends AppController {
                     $datos ['EntradasSalidasHora']['fecha0'] = 0;
                 }
             }
+            $cuenta = $this->EntradasSalidasDiasParque->find('first', array(
+                'conditions' => array(
+                    'fecha' => "$fecha"
+                ),
+                'fields' => array(
+                    'EntradasSalidasDiasParque.entradas',
+                    'EntradasSalidasDiasParque.salidas'
+                )
+            ));
+            $datos ['EntradasSalidasHora']['entradas25'] = $cuenta['EntradasSalidasDiasParque']['entradas'];
+            $datos ['EntradasSalidasHora']['salidas25'] = $cuenta['EntradasSalidasDiasParque']['salidas'];
         } else if ($vista == 1) {
             $torniquete = $this->request->data["torniquete"];
             $fecha = $this->request->data["fecha"];
