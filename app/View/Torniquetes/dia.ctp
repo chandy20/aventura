@@ -111,7 +111,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
         var total = entradas - salidas;
         chart = new Highcharts.Chart({
             title: {
-                text: 'Entradas y Salidas del día ' + fecha,
+                text: 'Entradas: '+entradas+' Salidas del día: '+salidas,
                 x: -20 //center
             },
             chart: {
@@ -123,7 +123,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             },
             yAxis: {
                 title: {
-                    text: 'Cantidad de entradas/Salidas quedan '+ total + ' personas en el parque'
+                    text: 'Quedan '+ total + ' personas en el parque'
                 },
                 plotLines: [{
                         value: 0,
