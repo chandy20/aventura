@@ -84,6 +84,23 @@ class TorniquetesController extends AppController {
         $this->set(compact('tipos', 'locaciones', 'grupos'));
     }
 
+    public function rango() {
+        $locaciones = $this->Torniquete->Locacione->find('list', array(
+            "fields" => array(
+                "Locacione.nombre_locacion"
+        )));
+        $locaciones[0] = "TODAS";
+
+        $tor = $this->Torniquete->find('list', array(
+            "fields" => array(
+                "Torniquete.id"
+        )));
+        foreach ($tor as $key => $value) {
+            $torniquetes[$value] = "Torniquete " . $value;
+        }
+        $this->set(compact('torniquetes', 'locaciones'));
+    }
+
     /**
      * edit method
      *
@@ -173,27 +190,6 @@ class TorniquetesController extends AppController {
                 "Grupo.nombre_grupo"
         )));
         $this->set(compact('tipos', 'locaciones', 'grupos', 'torniquetes'));
-    }
-
-    public function cuenta() {
-        $this->layout = "webservices";
-        $this->loadModel("EntradasSalidasDiasParque");
-        $fecha = $this->request->data["fecha"];
-        $datos = $this->EntradasSalidasDiasParque->find('list', array(
-            'conditions' => array(
-                'fecha' => "$fecha"
-            ),
-            'fields' => array(
-                'EntradasSalidasDiasParque.entradas',
-                'EntradasSalidasDiasParque.salidas'
-            )
-        ));
-        $this->set(
-                array(
-                    "datos" => $datos,
-                    "_serialize" => array("datos")
-                )
-        );
     }
 
     public function reporte() {
@@ -365,6 +361,47 @@ class TorniquetesController extends AppController {
                 $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_anos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`id` = $torniquete_id");
                 foreach ($d as $key => $value) {
                     $datos ['EntradasSalidasDiasParque'] = $value[0];
+                }
+            }
+        } else if ($vista == 6) {
+            $locacione_id = $this->request->data["entrada"];
+            $fecha = $this->request->data["fecha"];
+            $fecha2 = $this->request->data["fecha2"];
+            if ($locacione_id != null || $locacione_id != "") {
+                if ($locacione_id == 0) {
+                    $d = $this->EntradasSalidasDiasParque->query("SELECT (e.`entradas`) AS entradas, (e.`salidas`) AS salidas, fecha FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` between '$fecha' and '$fecha2' group by fecha asc");
+                    if ($d != array()) {
+                        for ($i = 0; $i < count($d); $i++) {
+                            $datos ['EntradasSalidasDiasParque'] ['entradas' . $i] = $d[$i]['e']['entradas'];
+                            $datos ['EntradasSalidasDiasParque'] ['salidas' . $i] = $d[$i]['e']['salidas'];
+                        }
+                    } else {
+                        $datos ['EntradasSalidasDiasParque'] ['entradas0'] = 0;
+                        $datos ['EntradasSalidasDiasParque'] ['salidas0'] = 0;
+                    }
+                } else {
+                    $d = $this->EntradasSalidasDiasParque->query("SELECT (e.`entradas`) AS entradas, (e.`salidas`) AS salidas, fecha FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` between '$fecha' and '$fecha2' AND t.`locacione_id` = $locacione_id group by fecha asc");
+                    if ($d != array()) {
+                        for ($i = 0; $i < count($d); $i++) {
+                            $datos ['EntradasSalidasDiasParque'] ['entradas' . $i] = $d[$i]['e']['entradas'];
+                            $datos ['EntradasSalidasDiasParque'] ['salidas' . $i] = $d[$i]['e']['salidas'];
+                        }
+                    } else {
+                        $datos ['EntradasSalidasDiasParque'] ['entradas0'] = 0;
+                        $datos ['EntradasSalidasDiasParque'] ['salidas0'] = 0;
+                    }
+                }
+            } else {
+                $torniquete_id = $this->request->data["torniquete"];
+                $d = $this->EntradasSalidasDiasParque->query("SELECT (e.`entradas`) AS entradas, (e.`salidas`) AS salidas, fecha FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` between '$fecha' and '$fecha2' AND t.`id` = $torniquete_id group by fecha asc");
+                if ($d != array()) {
+                    for ($i = 0; $i < count($d); $i++) {
+                        $datos ['EntradasSalidasDiasParque'] ['entradas' . $i] = $d[$i]['e']['entradas'];
+                        $datos ['EntradasSalidasDiasParque'] ['salidas' . $i] = $d[$i]['e']['salidas'];
+                    }
+                } else {
+                    $datos ['EntradasSalidasDiasParque'] ['entradas0'] = 0;
+                    $datos ['EntradasSalidasDiasParque'] ['salidas0'] = 0;
                 }
             }
         }
