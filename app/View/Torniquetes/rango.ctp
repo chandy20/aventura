@@ -4,7 +4,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
 ?>
 <?php echo $this->Form->create('Torniquetes'); ?>
 <div class="torniquetes dia" align="center">
-    <h1>Reporte Por Día</h1><br>
+    <h1>Reporte Por Rango de Fechas</h1><br>
     <label>Entrada</label>            
     <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "Seleccione una entrada")); ?>
     <br>
