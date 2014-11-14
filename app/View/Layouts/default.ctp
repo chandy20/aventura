@@ -78,11 +78,11 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <div class = "wrap">
             <div class = "wrapper">
                 <div class = "main" align="center">
-                    <table width="80%" align="center" id="mainImg">
+<!--                    <table width="80%" align="center" id="mainImg">
                         <tr>
                             <td align="center"><img src = "<?php echo $this->webroot . '/img/mundo.png' ?>" alt = "" width="80%" height="80%"/> </td>
                         </tr>
-                    </table>
+                    </table>-->
                     <?php
                     echo $this->Session->flash();
                     ?>
