@@ -71,34 +71,42 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             torniquete: $("#TorniquetesTorniqueteId").val(),
             vista: 6
         };
-        if ($("#TorniquetesLocacioneId").val() !== "" || $("#TorniquetesTorniqueteId").val() !== "") {
-            if ($("#TorniquetesFecha").val() !== "") {
-                ajax(url2, datos2, function(xml) {
-                    $("datos", xml).each(function() {
-                        var obj = $(this).find("EntradasSalidasDiasParque");
-                        var x = 0;
-                        for (var i = 0; i <= 23; i++) {
-                            if ($("entradas" + i, obj).text() !== '') {
-                                window ['e' + i] = parseInt($("entradas" + i, obj).text());
-                                window ['s' + i] = parseInt($("salidas" + i, obj).text());                                
-                            } else {
-                                window ['e' + i] = 0;
-                                window ['s' + i] = 0;
+        var fech1 = $("#TorniquetesFecha").val();
+        var fech2 = $("#TorniquetesFecha2").val();
+
+        if ((Date.parse(fech1)) < (Date.parse(fech2))) {
+            if ($("#TorniquetesLocacioneId").val() !== "" || $("#TorniquetesTorniqueteId").val() !== "") {
+                if ($("#TorniquetesFecha").val() !== "") {
+                    ajax(url2, datos2, function(xml) {
+                        $("datos", xml).each(function() {
+                            var obj = $(this).find("EntradasSalidasDiasParque");
+                            var x = 0;
+                            for (var i = 0; i <= 23; i++) {
+                                if ($("entradas" + i, obj).text() !== '') {
+                                    window ['e' + i] = parseInt($("entradas" + i, obj).text());
+                                    window ['s' + i] = parseInt($("salidas" + i, obj).text());
+                                } else {
+                                    window ['e' + i] = 0;
+                                    window ['s' + i] = 0;
+                                }
                             }
-                        }
-                        reporte(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14);
-                    });
+                            reporte(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14);
+                        });
 
 //                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
-                });
+                    });
 
+                } else {
+                    alert("Debe especificar la fecha para la consulta");
+                }
             } else {
-                alert("Debe especificar la fecha para la consulta");
+                alert("Debe primero seleccionar un torniquete o una Entrada");
             }
         } else {
-            alert("Debe primero seleccionar un torniquete o una Entrada");
+            alert("La fecha inicial no puede ser mayor que la fecha final");
         }
-    });
+    }
+    );
     $("#TorniquetesTorniqueteId").change(function() {
         var x = $("#TorniquetesTorniqueteId").val();
         if (x !== "") {
