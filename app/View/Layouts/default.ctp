@@ -61,7 +61,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                         <div class = "cssmenu">
                             <ul>
                                 <li><a class = "home" href="http://localhost/aventura" ></a></li>
-                                <li><a href="<?= $this->Html->url(array("controller" => "Grupos", "action" => "parque")) ?>">Parque</a></li>
+                                <li><a href="<?php echo '<script>$("#mainImg").hide()</script>'?> ">Parque</a></li>
                                 <li><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "reportes")) ?>">Reportes</a></li>
                                 <li><a href="<?= $this->Html->url(array("controller" => "users", "action" => "logout")); ?>">Cerrar Sesión</a></li>
                                 <div class = "clear"></div>
@@ -78,11 +78,17 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         <div class = "wrap">
             <div class = "wrapper">
                 <div class = "main" align="center">
+<!--                    <table width="80%" align="center" id="mainImg">
+                        <tr>
+                            <td align="center"><img src = "<?php echo $this->webroot . '/img/mundo.png' ?>" alt = "" width="80%" height="80%"/> </td>
+                        </tr>
+                    </table>-->
                     <?php
                     echo $this->Session->flash();
                     ?>
 
-                    <?php echo $this->fetch('content'); ?>
+                    <?php echo $this->fetch('content');
+                    ?>
                 </div>
             </div>
         </div>

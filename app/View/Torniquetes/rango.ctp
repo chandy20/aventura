@@ -96,6 +96,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
 //                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
                     });
 
+
                 } else {
                     alert("Debe especificar la fecha para la consulta");
                 }
