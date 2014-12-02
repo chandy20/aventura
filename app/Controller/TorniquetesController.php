@@ -450,6 +450,26 @@ class TorniquetesController extends AppController {
                     $datos ['EntradasSalidasDiasParque']['salidas' . $i] = $s[0][0]['salidas'];
                 }
             }
+        } else if ($vista == 7) {
+            $fecha = $this->request->data["fecha"];
+            $dias = $this->request->data['dias'];
+            $con = 0;
+            $sin = 0;
+            for ($i = 0; $i < $dias; $i++) {
+                $b = $this->EntradasSalidas->query("SELECT count(e.`id`) AS brazaletes FROM entradas_salidas e WHERE e.`fecha` LIKE '$fecha%' AND e.tipo='I' AND brazalete_id <> 0 ");
+                $n = $this->EntradasSalidas->query("SELECT count(e.`id`) AS brazaletes FROM entradas_salidas e WHERE e.`fecha` LIKE '$fecha%' AND e.tipo='I' AND brazalete_id = 0 ");
+                $fecha = date('Y-m-d', strtotime('+1 days', strtotime($fecha)));
+                $con = $con + $b[0][0]['brazaletes'];
+                $sin = $sin + $n[0][0]['brazaletes'];
+            }
+            $datos ['pasaporte']['con'] = $con;
+            $datos ['pasaporte']['sin'] = $sin;
+        }else if($vista == 8){
+            $fecha = $this->request->data["fecha"];
+            $dias = $this->request->data['dias'];
+            $d = $this->EntradasSalidas->query();
+            $s = $this->EntradasSalidas->query();
+            $s = $this->EntradasSalidas->query();
         }
         $this->set(
                 array(
@@ -599,10 +619,21 @@ class TorniquetesController extends AppController {
         $this->set(compact('ent', 'entr', 'entra', 'entrad', 'bl', 'bl2', 'bl3', 'bl4'));
     }
 
-    public function observaciones() {
-        if ($this->request->is('post')) {
-            
+    public function ingreso() {
+        $locaciones = $this->Torniquete->Locacione->find('list', array(
+            "fields" => array(
+                "Locacione.nombre_locacion"
+        )));
+        $locaciones[0] = "TODAS";
+
+        $tor = $this->Torniquete->find('list', array(
+            "fields" => array(
+                "Torniquete.id"
+        )));
+        foreach ($tor as $key => $value) {
+            $torniquetes[$value] = "Torniquete " . $value;
         }
+        $this->set(compact('torniquetes', 'locaciones'));
     }
 
     public function input() {
