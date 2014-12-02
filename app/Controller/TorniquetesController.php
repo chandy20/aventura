@@ -464,12 +464,18 @@ class TorniquetesController extends AppController {
             }
             $datos ['pasaporte']['con'] = $con;
             $datos ['pasaporte']['sin'] = $sin;
-        }else if($vista == 8){
+        } else if ($vista == 8) {
             $fecha = $this->request->data["fecha"];
             $dias = $this->request->data['dias'];
-            $d = $this->EntradasSalidas->query();
-            $s = $this->EntradasSalidas->query();
-            $s = $this->EntradasSalidas->query();
+            for ($i = 0; $i < $dias; $i++) {
+                $d = $this->EntradasSalidas->query("SELECT count(e.`id`) as entradas FROM `entradas_salidas` e INNER JOIN `brazaletes` b ON b.id = e.`brazalete_id` WHERE  b.`tipo_brazalete_id`  = 2 AND e.`fecha` LIKE '$fecha%'");
+                $z = $this->EntradasSalidas->query("SELECT count(e.`id`) as entradas FROM `entradas_salidas` e INNER JOIN `brazaletes` b ON b.id = e.`brazalete_id` WHERE  b.`tipo_brazalete_id`  = 3 AND e.`fecha` LIKE '$fecha%'");
+                $r = $this->EntradasSalidas->query("SELECT count(e.`id`) as entradas FROM `entradas_salidas` e INNER JOIN `brazaletes` b ON b.id = e.`brazalete_id` WHERE  b.`tipo_brazalete_id`  = 4 AND e.`fecha` LIKE '$fecha%'");
+                $fecha = date('Y-m-d', strtotime('+1 days', strtotime($fecha)));
+                $datos ['pasaportes']['diamante' . $i] = $d[0][0]['entradas'];
+                $datos ['pasaportes']['zafiro' . $i] = $z[0][0]['entradas'];
+                $datos ['pasaportes']['ruby' . $i] = $r[0][0]['entradas'];
+            }
         }
         $this->set(
                 array(
@@ -658,10 +664,12 @@ class TorniquetesController extends AppController {
                 )
         );
     }
-    public function acceso(){
+
+    public function acceso() {
         
     }
-    public function pasaporte(){
+
+    public function pasaporte() {
         $this->Entrada->virtualFields['Cantidad'] = 0;
         $this->Entrada->virtualFields['Aux'] = 0;
         $this->Entrada->virtualFields['Fecha'] = 0;

@@ -67,25 +67,40 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             dias: dias
         };
         if ($("#TorniquetesFecha").val() !== "" && $("#TorniquetesFecha2").val() !== "") {
-            if (parseInt(dias) > 1) {
-                ajax(url2, datos2, function(xml) {
-                    $("datos", xml).each(function() {
-                        var obj = $(this).find("pasaporte");
-                        var con = parseInt($("con", obj).text());
-                        var sin = parseInt($("sin", obj).text());
-                        torta(con, sin);
+            if (parseInt(dias) > 0) {
+                if (parseInt(dias) < 15) {
+                    ajax(url2, datos2, function(xml) {
+                        $("datos", xml).each(function() {
+                            var obj = $(this).find("pasaporte");
+                            var con = parseInt($("con", obj).text());
+                            var sin = parseInt($("sin", obj).text());
+                            torta(con, sin);
+                        });
                     });
-                });
-                var datos2 = {
-                    fecha: $("#TorniquetesFecha").val(),
-                    vista: 8,
-                    dias: dias
-                };
-                ajax(url2, datos2, function(xml) {
-                    $("datos", xml).each(function() {
-
+                    var datos2 = {
+                        fecha: $("#TorniquetesFecha").val(),
+                        vista: 8,
+                        dias: dias
+                    };
+                    ajax(url2, datos2, function(xml) {
+                        $("datos", xml).each(function() {
+                            var obj = $(this).find("pasaportes");
+                            for (var i = 0; i < 15; i++) {
+                                window ['d' + i]=0;
+                                window ['z' + i]=0;
+                                window ['r' + i]=0;
+                            }
+                            for (var i = 0; i < dias; i++) {                                
+                                window ['d' + i] = parseInt($("diamante" + i, obj).text());
+                                window ['z' + i] = parseInt($("zafiro" + i, obj).text());
+                                window ['r' + i] = parseInt($("ruby" + i, obj).text());
+                            }
+                            reporte(d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, z1, z2, z3, z4, z5, z6, z7, z8, z9, z10, z11, z12, z13, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13);
+                        });
                     });
-                });
+                } else {
+                    alert("El rango de fechas no puede ser mayor a 14 dias");
+                }
             } else {
                 alert("La fecha inicial no puede ser mayor a la final");
             }
@@ -110,21 +125,17 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             $('#TorniquetesTorniqueteId').prop('disabled', false);
         }
     });
-    function reporte(e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13) {
-        var fecha = $("#TorniquetesFecha").val();
-        var entradas = e0 + e1 + e2 + e3 + e4 + e5 + e6 + e7 + e8 + e9 + e10 + e11 + e12 + e13;
-        var salidas = s0 + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9 + s10 + s11 + s12 + e13;
+    function reporte(d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, z1, z2, z3, z4, z5, z6, z7, z8, z9, z10, z11, z12, z13, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13) {
         chart = new Highcharts.Chart({
             title: {
-                text: 'Entradas Totales: ' + entradas + ' - Salidas Totales: ' + salidas,
+                text: 'Ingresos al parque por pasaportes',
                 x: -20 //center
             },
             chart: {
                 renderTo: 'graficaCircular'
             },
             xAxis: {
-                categories: ['09:00', '10:00', '11:00', '12:00', '13:00',
-                    '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00']
+                categories: ['Día 1', 'Día 2', 'Día 3', 'Día 4', 'Día 5', 'Día 6', 'Día 7', 'Día 8', 'Día 9', 'Día 10', 'Día 11', 'Día 12', 'Día 13', 'Día 14']
             },
             yAxis: {
                 title: {
@@ -146,11 +157,14 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                 borderWidth: 0
             },
             series: [{
-                    name: 'Entradas',
-                    data: [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13]
+                    name: 'Diamanate',
+                    data: [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13]
                 }, {
-                    name: 'Salidas',
-                    data: [s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13]
+                    name: 'Zafiro',
+                    data: [z1, z2, z3, z4, z5, z6, z7, z8, z9, z10, z11, z12, z13]
+                }, {
+                    name: 'Ruby',
+                    data: [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13]
                 }]
         });
     }
