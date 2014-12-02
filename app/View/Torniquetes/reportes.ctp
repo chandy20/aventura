@@ -14,6 +14,16 @@
             </tr>
         </thead>
     </table>
-    <div class = "clear"></div>
+    <br><br><br>
+    <div class = "clear" align="center">
+        <table class="">
+            <tr>
+                <td><a href="<?=  $this->Html->url(array("controller" => "Observaciones", "action" => "add")) ?>"><img src="../app/webroot/img/observaciones.png" width="130" height="130" style="cursor:pointer" id="tor"></a></td>
+            </tr>
+            <tr>
+                <td><a href="<?=  $this->Html->url(array("controller" => "Observaciones", "action" => "add")) ?>"><h2 style="cursor:pointer">OBSERVACIONES</h2></a></td>
+            </tr>
+        </table>
+    </div>
 
 </div>

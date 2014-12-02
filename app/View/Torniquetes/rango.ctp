@@ -64,44 +64,56 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
 <script>
     $("#buscar").click(function() {
         var url2 = urlbase + "Torniquetes/reporte.xml";
+        var fech1 = new Date($("#TorniquetesFecha").val());
+        var fech2 = new Date($("#TorniquetesFecha2").val());
+        var f1 = fech1.valueOf();
+        var f2 = fech2.valueOf();
+        var dias = ((f2 - f1) / (1000 * 60 * 60 * 24)) + 1;
         var datos2 = {
             fecha: $("#TorniquetesFecha").val(),
             fecha2: $("#TorniquetesFecha2").val(),
             entrada: $("#TorniquetesLocacioneId").val(),
             torniquete: $("#TorniquetesTorniqueteId").val(),
-            vista: 6
+            vista: 6,
+            dias: dias
         };
-        var fech1 = $("#TorniquetesFecha").val();
-        var fech2 = $("#TorniquetesFecha2").val();
-
+        var fech1 = new Date($("#TorniquetesFecha").val());
+        var fech2 = new Date($("#TorniquetesFecha2").val());
+        var f1 = fech1.valueOf();
+        var f2 = fech2.valueOf();
+        var dias = (f2 - f1) / (1000 * 60 * 60 * 24);
         if ((Date.parse(fech1)) < (Date.parse(fech2))) {
-            if ($("#TorniquetesLocacioneId").val() !== "" || $("#TorniquetesTorniqueteId").val() !== "") {
-                if ($("#TorniquetesFecha").val() !== "") {
-                    ajax(url2, datos2, function(xml) {
-                        $("datos", xml).each(function() {
-                            var obj = $(this).find("EntradasSalidasDiasParque");
-                            var x = 0;
-                            for (var i = 0; i <= 23; i++) {
-                                if ($("entradas" + i, obj).text() !== '') {
-                                    window ['e' + i] = parseInt($("entradas" + i, obj).text());
-                                    window ['s' + i] = parseInt($("salidas" + i, obj).text());
-                                } else {
-                                    window ['e' + i] = 0;
-                                    window ['s' + i] = 0;
+            if (dias <= 14) {
+                if ($("#TorniquetesLocacioneId").val() !== "" || $("#TorniquetesTorniqueteId").val() !== "") {
+                    if ($("#TorniquetesFecha").val() !== "") {
+                        ajax(url2, datos2, function(xml) {
+                            $("datos", xml).each(function() {
+                                var obj = $(this).find("EntradasSalidasDiasParque");
+                                var x = 0;
+                                for (var i = 0; i <= 23; i++) {
+                                    if ($("entradas" + i, obj).text() !== '') {
+                                        window ['e' + i] = parseInt($("entradas" + i, obj).text());
+                                        window ['s' + i] = parseInt($("salidas" + i, obj).text());
+                                    } else {
+                                        window ['e' + i] = 0;
+                                        window ['s' + i] = 0;
+                                    }
                                 }
-                            }
-                            reporte(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14);
-                        });
+                                reporte(e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13);
+                            });
 
 //                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
-                    });
+                        });
 
 
+                    } else {
+                        alert("Debe especificar la fecha para la consulta");
+                    }
                 } else {
-                    alert("Debe especificar la fecha para la consulta");
+                    alert("Debe primero seleccionar un torniquete o una Entrada");
                 }
             } else {
-                alert("Debe primero seleccionar un torniquete o una Entrada");
+                alert("el rango de fechas no debe sobrepasar los 14 dias");
             }
         } else {
             alert("La fecha inicial no puede ser mayor que la fecha final");
@@ -124,11 +136,11 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             $('#TorniquetesTorniqueteId').prop('disabled', false);
         }
     });
-    function reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22) {
+    function reporte(e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13) {
         var fecha = $("#TorniquetesFecha").val();
 
-        var entradas = e9 + e10 + e11 + e12 + e13 + e14 + e15 + e16 + e17 + e18 + e19 + e20 + e21 + e22;
-        var salidas = s9 + s10 + s11 + s12 + s13 + s14 + s15 + s16 + s17 + s18 + s19 + s20 + s21 + s22;
+        var entradas = e0 + e1 + e2 + e3 + e4 + e5 + e6 + e7 + e8 + e9 + e10 + e11 + e12 + e13;
+        var salidas = s0 + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9 + s10 + s11 + s12 + s13;
         chart = new Highcharts.Chart({
             title: {
                 text: 'Entradas Totales: ' + entradas + ' - Salidas Totales: ' + salidas,
@@ -162,10 +174,10 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             },
             series: [{
                     name: 'Entradas',
-                    data: [e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22]
+                    data: [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13]
                 }, {
                     name: 'Salidas',
-                    data: [s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22]
+                    data: [s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13]
                 }]
         });
     }

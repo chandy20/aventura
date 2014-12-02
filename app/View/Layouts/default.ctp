@@ -61,7 +61,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
                         <div class = "cssmenu">
                             <ul>
                                 <li><a class = "home" href="http://localhost/aventura" ></a></li>
-                                <li><a href="<?php echo '<script>$("#mainImg").hide()</script>'?> ">Parque</a></li>
+                                <!--<li><a href="<?php echo '<script>$("#mainImg").hide()</script>'?> ">Parque</a></li>-->
+                                <li><a href="<?= $this->Html->url(array("controller" => "Grupos", "action" => "parque")) ?>">Parque</a></li>
                                 <li><a href="<?= $this->Html->url(array("controller" => "Torniquetes", "action" => "reportes")) ?>">Reportes</a></li>
                                 <li><a href="<?= $this->Html->url(array("controller" => "users", "action" => "logout")); ?>">Cerrar Sesión</a></li>
                                 <div class = "clear"></div>

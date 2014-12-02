@@ -194,71 +194,123 @@ class TorniquetesController extends AppController {
 
     public function reporte() {
         $this->layout = "webservices";
-        $this->loadModel("EntradasSalidasDiasParque");
         $vista = $this->request->data ["vista"];
+        $this->loadModel("EntradasSalidas");
         if ($vista == 0) {
             $fecha = $this->request->data["fecha"];
             $torniquete = $this->request->data["torniquete"];
             $entrada = $this->request->data["entrada"];
-            $this->loadModel("EntradasSalidasHora");
+            $hora = 9;
             if ($entrada != "") {
                 if ($entrada == 0) {
-                    $d = $this->EntradasSalidasHora->query("SELECT SUM(`entradas`) as entradas,SUM(`salidas`)as salidas, fecha as fecha FROM `entradas_salidas_horas` WHERE fecha LIKE '$fecha %' group by fecha");
-
-                    if ($d != array()) {
-                        for ($i = 0; $i < count($d); $i++) {
-                            $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i][0]['entradas'];
-                            $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i][0]['salidas'];
-                            $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
+                    for ($i = 0; $i < 14; $i++) {
+                        if ($hora < 10) {
+                            $time = '0' . $hora;
+                            $hora ++;
+                        } else {
+                            $time = $hora;
+                            $hora ++;
                         }
-                    } else {
-                        $datos ['EntradasSalidasHora']['entradas0'] = 0;
-                        $datos ['EntradasSalidasHora']['salidas0'] = 0;
-                        $datos ['EntradasSalidasHora']['fecha0'] = 0;
+                        $date = $fecha . " " . $time;
+                        $e = $this->EntradasSalidas->query("SELECT count(`id`)as entradas FROM `entradas_salidas` WHERE fecha LIKE '$date%' AND `tipo` = 'I'");
+                        $s = $this->EntradasSalidas->query("SELECT count(`id`)as salidas FROM `entradas_salidas` WHERE fecha LIKE '$date%' AND `tipo` = 'O'");
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = $e[0][0]['entradas'];
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = $s[0][0]['salidas'];
                     }
+                    $e = $this->EntradasSalidas->query("SELECT count(`id`)as entradas FROM `entradas_salidas` WHERE fecha LIKE '$fecha%' AND `tipo` = 'I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(`id`)as salidas FROM `entradas_salidas` WHERE fecha LIKE '$fecha%' AND `tipo` = 'O'");
+                    $datos ['EntradasSalidasHora']['entradas' . $i] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasHora']['salidas' . $i] = $s[0][0]['salidas'];
                 } else if ($entrada != 0) {
-                    $d = $this->EntradasSalidasHora->query("SELECT sum(e.`entradas`) as entradas,sum(e.`salidas`) as salidas, e.fecha as fecha FROM `entradas_salidas_horas` e INNER JOIN torniquetes t ON e.torniquete_id = t.id WHERE t.locacione_id = $entrada AND e.fecha LIKE '$fecha%' group by fecha");
-                    if ($d != array()) {
-                        for ($i = 0; $i < count($d); $i++) {
-                            $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i][0]['entradas'];
-                            $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i][0]['salidas'];
-                            $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['e']['fecha'];
+                    for ($i = 0; $i < 14; $i++) {
+                        if ($hora < 10) {
+                            $time = '0' . $hora;
+                            $hora ++;
+                        } else {
+                            $time = $hora;
+                            $hora ++;
                         }
+                        $date = $fecha . " " . $time;
+                        $e = $this->EntradasSalidas->query("SELECT count(e.`id`) as entradas FROM `entradas_salidas` e INNER JOIN torniquetes t ON e.torniquete_id = t.id WHERE t.locacione_id = $entrada AND e.fecha LIKE '$date%' AND e.tipo='I'");
+                        $s = $this->EntradasSalidas->query("SELECT count(e.`id`) as salidas FROM `entradas_salidas` e INNER JOIN torniquetes t ON e.torniquete_id = t.id WHERE t.locacione_id = $entrada AND e.fecha LIKE '$date%' AND e.tipo='O'");
+                        if ($e != array()) {
+                            $datos ['EntradasSalidasHora']['entradas' . $i] = $e[0][0]['entradas'];
+                        } else {
+                            $datos ['EntradasSalidasHora']['entradas' . $i] = '0';
+                        }
+                        if ($s != array()) {
+                            $datos ['EntradasSalidasHora']['salidas' . $i] = $s[0][0]['salidas'];
+                        } else {
+                            $datos ['EntradasSalidasHora']['salidas' . $i] = '0';
+                        }
+                    }
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) as entradas FROM `entradas_salidas` e INNER JOIN torniquetes t ON e.torniquete_id = t.id WHERE t.locacione_id = $entrada AND e.fecha LIKE '$fecha%' AND e.tipo='I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) as salidas FROM `entradas_salidas` e INNER JOIN torniquetes t ON e.torniquete_id = t.id WHERE t.locacione_id = $entrada AND e.fecha LIKE '$fecha%' AND e.tipo='O'");
+                    if ($e != array()) {
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = $e[0][0]['entradas'];
                     } else {
-                        $datos ['EntradasSalidasHora']['entradas0'] = 0;
-                        $datos ['EntradasSalidasHora']['salidas0'] = 0;
-                        $datos ['EntradasSalidasHora']['fecha0'] = 0;
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = '0';
+                    }
+                    if ($s != array()) {
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = $s[0][0]['salidas'];
+                    } else {
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = '0';
                     }
                 }
             } else {
-                $d = $this->EntradasSalidasDiasParque->query("SELECT `entradas`,`salidas`,fecha as fecha FROM `entradas_salidas_horas` WHERE `fecha` LIKE '$fecha%' AND `torniquete_id`= $torniquete");
-                if ($d != array()) {
-                    for ($i = 0; $i < count($d); $i++) {
-                        $datos ['EntradasSalidasHora']['entradas' . $i] = $d[$i]['entradas_salidas_horas']['entradas'];
-                        $datos ['EntradasSalidasHora']['salidas' . $i] = $d[$i]['entradas_salidas_horas']['salidas'];
-                        $datos ['EntradasSalidasHora']['fecha' . $i] = $d[$i]['entradas_salidas_horas']['fecha'];
+                for ($i = 0; $i < 14; $i++) {
+                    if ($hora < 10) {
+                        $time = '0' . $hora;
+                        $hora ++;
+                    } else {
+                        $time = $hora;
+                        $hora ++;
                     }
+                    $date = $fecha . " " . $time;
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) as entradas FROM `entradas_salidas` e WHERE `fecha` LIKE '$date%' AND `torniquete_id`= $torniquete AND e.tipo = 'I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) as salidas FROM `entradas_salidas` e WHERE `fecha` LIKE '$date%' AND `torniquete_id`= $torniquete AND e.tipo = 'O'");
+                    if ($e != array()) {
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = $e[0][0]['entradas'];
+                    } else {
+                        $datos ['EntradasSalidasHora']['entradas' . $i] = '0';
+                    }
+                    if ($s != array()) {
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = $s[0][0]['salidas'];
+                    } else {
+                        $datos ['EntradasSalidasHora']['salidas' . $i] = '0';
+                    }
+                }
+                $e = $this->EntradasSalidas->query("SELECT count(e.`id`) as entradas FROM `entradas_salidas` e WHERE `fecha` LIKE '$fecha%' AND `torniquete_id`= $torniquete AND e.tipo = 'I'");
+                $s = $this->EntradasSalidas->query("SELECT count(e.`id`) as salidas FROM `entradas_salidas` e WHERE `fecha` LIKE '$fecha%' AND `torniquete_id`= $torniquete AND e.tipo = 'O'");
+                if ($e != array()) {
+                    $datos ['EntradasSalidasHora']['entradas' . $i] = $e[0][0]['entradas'];
                 } else {
-                    $datos ['EntradasSalidasHora']['entradas0'] = 0;
-                    $datos ['EntradasSalidasHora']['salidas0'] = 0;
-                    $datos ['EntradasSalidasHora']['fecha0'] = 0;
+                    $datos ['EntradasSalidasHora']['entradas' . $i] = '0';
+                }
+                if ($s != array()) {
+                    $datos ['EntradasSalidasHora']['salidas' . $i] = $s[0][0]['salidas'];
+                } else {
+                    $datos ['EntradasSalidasHora']['salidas' . $i] = '0';
                 }
             }
-            $cuenta = $this->EntradasSalidasDiasParque->find('first', array(
-                'conditions' => array(
-                    'fecha' => "$fecha"
-                ),
-                'fields' => array(
-                    'EntradasSalidasDiasParque.entradas',
-                    'EntradasSalidasDiasParque.salidas'
-                )
+            $this->loadModel('Observacione');
+            $observaciones = $this->Observacione->find('list', array(
+                'conditions' => array("Observacione.fecha='$fecha'"),
+                'fields' => array('Observacione.observacion')
             ));
-            $datos ['EntradasSalidasHora']['entradas25'] = $cuenta['EntradasSalidasDiasParque']['entradas'];
-            $datos ['EntradasSalidasHora']['salidas25'] = $cuenta['EntradasSalidasDiasParque']['salidas'];
+            $i = 0;
+            if ($observaciones != array()) {
+                foreach ($observaciones as $key => $value) {
+                    $datos['EntradasSalidasHora']['observacion' . $i] = $value;
+                    $i++;
+                }
+            } else {
+                $datos['EntradasSalidasHora']['observacion0'] = 'No hay observaciones disponibles para la fecha seleccionada';
+            }
         } else if ($vista == 1) {
             $torniquete = $this->request->data["torniquete"];
             $fecha = $this->request->data["fecha"];
-            $d = $this->EntradasSalidasDiasParque->query("SELECT `entradas`, `salidas` FROM `entradas_salidas_dias` WHERE `fecha` = '$fecha' and `torniquete_id` = $torniquete ");
+            $d = $this->EntradasSalidas->query("SELECT sum(e.`entradas`) as entradas,sum(e.`salidas`) as salidas FROM `entradas_salidas` WHERE `fecha` LIKE '$fecha %' and `torniquete_id` = $torniquete ");
             foreach ($d as $key => $value) {
                 $datos ['EntradasSalidasDiasParque'] = $value[0];
             }
@@ -267,141 +319,135 @@ class TorniquetesController extends AppController {
             $torniquete_id = $this->request->data["torniquete"];
             $hora = $this->request->data["hora"];
             $minuto = $this->request->data["minuto"];
+            if (strlen($hora) < 2) {
+                $hora = "0" . $this->request->data["hora"];
+            }
             if (strlen($minuto) < 2) {
                 $minuto = "0" . $this->request->data["minuto"];
             }
-            $fecha = $this->request->data["fecha"] . " " . $hora . ":" . $minuto . ":00";
+            $fecha = $this->request->data["fecha"] . " " . $hora . ":" . $minuto;
             if ($locacione_id != null || $locacione_id != "") {
                 if ($locacione_id == 0 || $locacione_id == "0") {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(`entradas`) AS entradas, sum(`salidas`) AS salidas FROM `entradas_salidas_minutos` WHERE `fecha` = '$fecha'");
-
-                    foreach ($d as $key => $value) {
-                        $datos ['EntradasSalidasDiasParque'] = $value[0];
-                    }
+                    $e = $this->EntradasSalidas->query("SELECT count(`id`) AS entradas FROM `entradas_salidas` WHERE `fecha` LIKE '$fecha%' AND tipo='I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(`id`) AS salidas FROM `entradas_salidas` WHERE `fecha` LIKE '$fecha%' AND tipo='O'");
+                    $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
                 } else {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) as salidas FROM `entradas_salidas_minutos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` INNER JOIN `locaciones` l ON l.`id` = t.`locacione_id` WHERE l.`id`=$locacione_id AND `fecha` = '$fecha' ");
-                    foreach ($d as $key => $value) {
-                        $datos ['EntradasSalidasDiasParque'] = $value[0];
-                    }
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` INNER JOIN `locaciones` l ON l.`id` = t.`locacione_id` WHERE l.`id`=$locacione_id AND `fecha` LIKE '$fecha%' AND e.tipo='I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` INNER JOIN `locaciones` l ON l.`id` = t.`locacione_id` WHERE l.`id`=$locacione_id AND `fecha` LIKE '$fecha%'AND e.tipo='O'");
+                    $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
                 }
             } else {
-                $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_minutos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE t.`id`=$torniquete_id AND `fecha` = '$fecha'");
-
-                foreach ($d as $key => $value) {
-                    $datos ['EntradasSalidasDiasParque'] = $value[0];
-                }
+                $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE t.`id`=$torniquete_id AND e.`fecha` LIKE '$fecha%' AND e.tipo='I'");
+                $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE t.`id`=$torniquete_id AND e.`fecha` LIKE '$fecha%' AND e.tipo='O'");
+                $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
             }
         }if ($vista == 3) {
             $locacione_id = $this->request->data["locacion"];
             $torniquete_id = $this->request->data["torniquete"];
             $hora = $this->request->data["hora"];
-            if ($hora == '0') {
-                $hora = '00';
+            if (strlen($hora) < 2) {
+                $hora = "0" . $this->request->data["hora"];
             }
-            $fecha = $this->request->data["fecha"] . " " . $hora . ":00:00.000000";
+            $fecha = $this->request->data["fecha"] . " " . $hora;
             if ($locacione_id != null || $locacione_id != "") {
                 if ($locacione_id == 0) {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_horas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha'");
-                    foreach ($d as $key => $value) {
-                        $datos ['EntradasSalidasDiasParque'] = $value[0];
-                    }
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha%' AND e.tipo = 'I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha%' AND e.tipo = 'O'");
+                    $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
                 } else if ($locacione_id != 0) {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_horas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`locacione_id` = $locacione_id");
-                    foreach ($d as $key => $value) {
-                        $datos ['EntradasSalidasDiasParque'] = $value[0];
-                    }
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha%' AND t.`locacione_id` = $locacione_id AND e.tipo='I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha%' AND t.`locacione_id` = $locacione_id AND e.tipo='O'");
+                    $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
                 }
             } else {
                 $torniquete_id = $this->request->data["torniquete"];
                 $hora = $this->request->data["hora"];
-                $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_horas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`id` = $torniquete_id");
-                foreach ($d as $key => $value) {
-                    $datos ['EntradasSalidasDiasParque'] = $value[0];
-                }
+                $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha%' AND t.`id` = $torniquete_id AND e.tipo='I'");
+                $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha%' AND t.`id` = $torniquete_id AND e.tipo='O'");
+                $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
             }
         } else if ($vista == 4) {
             $locacione_id = $this->request->data["entrada"];
             $fecha = $this->request->data["fecha"];
             if ($locacione_id != null || $locacione_id != "") {
                 if ($locacione_id == 0) {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_meses` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha'");
-                    foreach ($d as $key => $value) {
-                        $datos ['EntradasSalidasDiasParque'] = $value[0];
-                    }
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND e.tipo='I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND e.tipo='O'");
+                    $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
                 } else {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_meses` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`locacione_id`= $locacione_id");
-                    foreach ($d as $key => $value) {
-                        $datos ['EntradasSalidasDiasParque'] = $value[0];
-                    }
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND t.`locacione_id`= $locacione_id AND e.tipo='I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND t.`locacione_id`= $locacione_id AND e.tipo='O'");
+                    $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
                 }
             } else if ($locacione_id == null || $locacione_id == "") {
                 $torniquete_id = $this->request->data["torniquete"];
-                $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_meses` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND e.`torniquete_id`= $torniquete_id");
-                foreach ($d as $key => $value) {
-                    $datos ['EntradasSalidasDiasParque'] = $value[0];
-                }
+                $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND e.`torniquete_id`= $torniquete_id AND e.tipo='I'");
+                $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND e.`torniquete_id`= $torniquete_id AND e.tipo='O'");
+                $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
             }
         } else if ($vista == 5) {
             $locacione_id = $this->request->data["entrada"];
             $fecha = $this->request->data["fecha"];
             if ($locacione_id != null || $locacione_id != "") {
                 if ($locacione_id == 0) {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_anos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha'");
-                    foreach ($d as $key => $value) {
-                        $datos ['EntradasSalidasDiasParque'] = $value[0];
-                    }
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND e.tipo='I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND e.tipo='O'");
+                    $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
                 } else {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_anos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`locacione_id` = $locacione_id");
-                    foreach ($d as $key => $value) {
-                        $datos ['EntradasSalidasDiasParque'] = $value[0];
-                    }
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND t.`locacione_id` = $locacione_id AND e.tipo='I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND t.`locacione_id` = $locacione_id AND e.tipo='O'");
+                    $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
                 }
             } else {
                 $torniquete_id = $this->request->data["torniquete"];
-                $d = $this->EntradasSalidasDiasParque->query("SELECT SUM(e.`entradas`) AS entradas, SUM(e.`salidas`) AS salidas FROM `entradas_salidas_anos` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` = '$fecha' AND t.`id` = $torniquete_id");
-                foreach ($d as $key => $value) {
-                    $datos ['EntradasSalidasDiasParque'] = $value[0];
-                }
+                $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND t.`id` = $torniquete_id AND e.tipo='I'");
+                $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha-%' AND t.`id` = $torniquete_id AND e.tipo='O'");
+                $datos ['EntradasSalidasDiasParque']['entradas'] = $e[0][0]['entradas'];
+                $datos ['EntradasSalidasDiasParque']['salidas'] = $s[0][0]['salidas'];
             }
         } else if ($vista == 6) {
             $locacione_id = $this->request->data["entrada"];
             $fecha = $this->request->data["fecha"];
             $fecha2 = $this->request->data["fecha2"];
+            $dias = $this->request->data['dias'];
             if ($locacione_id != null || $locacione_id != "") {
                 if ($locacione_id == 0) {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT (e.`entradas`) AS entradas, (e.`salidas`) AS salidas, fecha FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` between '$fecha' and '$fecha2' group by fecha asc");
-                    if ($d != array()) {
-                        for ($i = 0; $i < count($d); $i++) {
-                            $datos ['EntradasSalidasDiasParque'] ['entradas' . $i] = $d[$i]['e']['entradas'];
-                            $datos ['EntradasSalidasDiasParque'] ['salidas' . $i] = $d[$i]['e']['salidas'];
-                        }
-                    } else {
-                        $datos ['EntradasSalidasDiasParque'] ['entradas0'] = 0;
-                        $datos ['EntradasSalidasDiasParque'] ['salidas0'] = 0;
+                    for ($i = 0; $i < $dias; $i++) {
+                        $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha%' AND e.tipo='I'");
+                        $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha%' AND e.tipo='O'");
+                        $fecha = date('Y-m-d', strtotime('+1 days', strtotime($fecha)));
+                        $datos ['EntradasSalidasDiasParque']['entradas' . $i] = $e[0][0]['entradas'];
+                        $datos ['EntradasSalidasDiasParque']['salidas' . $i] = $s[0][0]['salidas'];
                     }
                 } else {
-                    $d = $this->EntradasSalidasDiasParque->query("SELECT (e.`entradas`) AS entradas, (e.`salidas`) AS salidas, fecha FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` between '$fecha' and '$fecha2' AND t.`locacione_id` = $locacione_id group by fecha asc");
-                    if ($d != array()) {
-                        for ($i = 0; $i < count($d); $i++) {
-                            $datos ['EntradasSalidasDiasParque'] ['entradas' . $i] = $d[$i]['e']['entradas'];
-                            $datos ['EntradasSalidasDiasParque'] ['salidas' . $i] = $d[$i]['e']['salidas'];
-                        }
-                    } else {
-                        $datos ['EntradasSalidasDiasParque'] ['entradas0'] = 0;
-                        $datos ['EntradasSalidasDiasParque'] ['salidas0'] = 0;
+                    $dias = $this->request->data['dias'];
+                    for ($i = 0; $i < $dias; $i++) {
+                        $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha %' AND t.`locacione_id` = $locacione_id AND e.tipo='I'");
+                        $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha %' AND t.`locacione_id` = $locacione_id AND e.tipo='O'");
+                        $fecha = date('Y-m-d', strtotime('+1 days', strtotime($fecha)));
+                        $datos ['EntradasSalidasDiasParque']['entradas' . $i] = $e[0][0]['entradas'];
+                        $datos ['EntradasSalidasDiasParque']['salidas' . $i] = $s[0][0]['salidas'];
                     }
                 }
             } else {
                 $torniquete_id = $this->request->data["torniquete"];
-                $d = $this->EntradasSalidasDiasParque->query("SELECT (e.`entradas`) AS entradas, (e.`salidas`) AS salidas, fecha FROM `entradas_salidas_dias` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` between '$fecha' and '$fecha2' AND t.`id` = $torniquete_id group by fecha asc");
-                if ($d != array()) {
-                    for ($i = 0; $i < count($d); $i++) {
-                        $datos ['EntradasSalidasDiasParque'] ['entradas' . $i] = $d[$i]['e']['entradas'];
-                        $datos ['EntradasSalidasDiasParque'] ['salidas' . $i] = $d[$i]['e']['salidas'];
-                    }
-                } else {
-                    $datos ['EntradasSalidasDiasParque'] ['entradas0'] = 0;
-                    $datos ['EntradasSalidasDiasParque'] ['salidas0'] = 0;
+                for ($i = 0; $i < $dias; $i++) {
+                    $e = $this->EntradasSalidas->query("SELECT count(e.`id`) AS entradas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha %' AND t.`id` = $torniquete_id AND e.tipo='I'");
+                    $s = $this->EntradasSalidas->query("SELECT count(e.`id`) AS salidas FROM `entradas_salidas` e INNER JOIN `torniquetes` t ON t.`id`= e.`torniquete_id` WHERE e.`fecha` LIKE '$fecha %' AND t.`id` = $torniquete_id AND e.tipo='O'");
+                    $fecha = date('Y-m-d', strtotime('+1 days', strtotime($fecha)));
+                    $datos ['EntradasSalidasDiasParque']['entradas' . $i] = $e[0][0]['entradas'];
+                    $datos ['EntradasSalidasDiasParque']['salidas' . $i] = $s[0][0]['salidas'];
                 }
             }
         }
@@ -551,6 +597,12 @@ class TorniquetesController extends AppController {
             $entrad[$key] = $value['torniquetes']['id'];
         }
         $this->set(compact('ent', 'entr', 'entra', 'entrad', 'bl', 'bl2', 'bl3', 'bl4'));
+    }
+
+    public function observaciones() {
+        if ($this->request->is('post')) {
+            
+        }
     }
 
     public function input() {

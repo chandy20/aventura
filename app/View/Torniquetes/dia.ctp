@@ -4,27 +4,43 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
 ?>
 <?php echo $this->Form->create('Torniquetes'); ?>
 <div class="torniquetes dia" align="center">
-    <h1>Reporte Por Día</h1><br>
-    <label>Entrada</label>            
-    <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "Seleccione una entrada")); ?>
-    <br>
-    <label>Torniquete</label>
-    <?php
-    echo $this->Form->input('Torniquete_id', array(
-        'label' => '',
-        "empty" => "Seleccione un torniquete",
-    ));
-    ?>
-    <br>
-    <label>Fecha</label>
-    <div>
-        <?php
-        echo $this->Form->input('fecha', array('label' => '', 'maxlength' => '15', 'readonly' => 'readonly', 'required' => 'true'));
-        ?>
-        <img src="<?php echo $this->webroot . '/img/calendario.png' ?>"  id="selector" name="selector" style="cursor:pointer" />
-        <br><br>
-        <input type="button" id="buscar" name="buscar" value="Buscar">
-    </div>
+    <table>
+        <tr><td>
+                <table>
+                    <tr>
+                        <td align="center"><h1>Reporte Por Día</h1><br></td>
+                    </tr>
+                    <tr>
+                        <td align="center"><label>Entrada</label>            
+                            <?php echo $this->Form->input('locacione_id', array('label' => '', "empty" => "Seleccione una entrada")); ?></td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <td align="center"><label>Torniquete</label>
+                            <?php
+                            echo $this->Form->input('Torniquete_id', array(
+                                'label' => '',
+                                "empty" => "Seleccione un torniquete",
+                            ));
+                            ?></td>
+                    </tr>
+                    <br>
+                    <tr>
+                        <td align="center">
+                            <label>Fecha</label>
+                            <div>
+                                <?php
+                                echo $this->Form->input('fecha', array('label' => '', 'maxlength' => '15', 'readonly' => 'readonly', 'required' => 'true'));
+                                ?>
+                                <img src="<?php echo $this->webroot . '/img/calendario.png' ?>"  id="selector" name="selector" style="cursor:pointer" />
+                                <br><br>
+                                <input type="button" id="buscar" name="buscar" value="Buscar">
+                            </div></td>
+                    </tr>        
+                </table>
+            </td>           
+        </tr>
+    </table>
     <table class="container">
         <tr>
             <th><div id="graficaCircular"></div></th>
@@ -34,6 +50,9 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
         <tr>
             <th><div id="graficaCircular2"></div></th>
         </tr>
+    </table>
+    <table>
+        <div id="obs" name="obs"></div>
     </table>
 </div>
 </form>
@@ -54,40 +73,31 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             fecha: $("#TorniquetesFecha").val(),
             entrada: $("#TorniquetesLocacioneId").val(),
             torniquete: $("#TorniquetesTorniqueteId").val(),
-            vista: 0            
+            vista: 0
         };
         if ($("#TorniquetesLocacioneId").val() !== "" || $("#TorniquetesTorniqueteId").val() !== "") {
             if ($("#TorniquetesFecha").val() !== "") {
                 ajax(url2, datos2, function(xml) {
+                    $("#obs").html("var html = '<tr><th  align= 'center'><h1>Observaciones</H1></th></tr>'");
                     $("datos", xml).each(function() {
                         var obj = $(this).find("EntradasSalidasHora");
-                        var x = 0;
-                        var bandera = true;
-                        for (var i = 9; i <= 23; i++) {
-                            for (var j = x; j <= 23; j++) {
-                                fecha = $("fecha" + j, obj).text();
-                                hora = parseInt(fecha.substring(11, 13));
-                                if (hora === i) {
-                                    window ['e' + i] = parseInt($("entradas" + j, obj).text());
-                                    window ['s' + i] = parseInt($("salidas" + j, obj).text());
-                                    bandera = false;
-                                    x = j;
-                                    break;
-                                }
-                            }
-                            if (bandera === true) {
-                                window ['e' + i] = 0;
-                                window ['s' + i] = 0;
-                            }
-                            bandera = true;
+                        var y = 0;
+                        for (var i = 0; i < 14; i++) {
+                            window ['e' + i] = parseInt($("entradas" + i, obj).text());
+                            window ['s' + i] = parseInt($("salidas" + i, obj).text());                            var obs = $('observacion' + y, obj).text();
+                            var html = "<tr><td align='center'>$1</th></tr>";
+                            var obs = $("observacion" + i, obj).text();
+                            html = html.replace("$1", obs);
+                            $("#obs").append(html);
+                            y++;
                         }
-                        entradas = $("entradas25", obj).text();
-                        salidas = $("salidas25", obj).text();
+                        entradas = $("entradas14", obj).text();
+                        salidas = $("salidas14", obj).text();
                         torta(entradas, salidas);
-                        reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22);
+                        reporte(e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13);
 //                        alert(e9 + " " + e10 + " " + e11 + " " + e12 + " " + e13 + " " + e14 + " " + e15 + " " + e16 + " " + e17 + " " + e18 + " " + e19 + " " + e20 + " " + e21 + " " + e22 + " " + s9 + " " + s10 + " " + s11 + " " + s12 + " " + s13 + " " + s14 + " " + s15 + " " + s16 + " " + s17 + " " + s18 + " " + s19 + " " + s20 + " " + s21 + " " + s22);
                     });
-                });                
+                });
             } else {
                 alert("Debe especificar la fecha para la consulta");
             }
@@ -111,15 +121,13 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             $('#TorniquetesTorniqueteId').prop('disabled', false);
         }
     });
-    function reporte(e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22) {
+    function reporte(e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13) {
         var fecha = $("#TorniquetesFecha").val();
-
-        var entradas = e9+e10+e11+e12+e13+e14+e15+e16+e17+e18+e19+e20+e21+e22;
-        var salidas = s9+s10+s11+s12+s13+s14+s15+s16+s17+s18+s19+s20+s21+s22;
+        var entradas = e0 + e1 + e2 + e3 + e4 + e5 + e6 + e7 + e8 + e9 + e10 + e11 + e12 + e13;
+        var salidas = s0 + s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9 + s10 + s11 + s12 + e13;
         chart = new Highcharts.Chart({
             title: {
-                text: 'Entradas Totales: '+entradas+' - Salidas Totales: '+salidas ,
-
+                text: 'Entradas Totales: ' + entradas + ' - Salidas Totales: ' + salidas,
                 x: -20 //center
             },
             chart: {
@@ -150,10 +158,10 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
             },
             series: [{
                     name: 'Entradas',
-                    data: [e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22]
+                    data: [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13]
                 }, {
                     name: 'Salidas',
-                    data: [s9, s10, s11, s12, s13, s14, s15, s16, s17, s18, s19, s20, s21, s22]
+                    data: [s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13]
                 }]
         });
     }
@@ -165,7 +173,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
                 renderTo: 'graficaCircular2'
             },
             title: {
-                text: 'Entradas Totales: '+ a+'. Salidas Totales: '+b
+                text: 'Entradas Totales: ' + a + '. Salidas Totales: ' + b
             },
             subtitle: {
                 text: 'Mundo Aventura'
