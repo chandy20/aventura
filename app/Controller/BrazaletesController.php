@@ -3,9 +3,9 @@
 App::uses('AppController', 'Controller');
 
 /**
- * Bracelets Controller
+ * Brazaletes Controller
  *
- * @property Bracelet $Bracelet
+ * @property Brazalete $Brazalete
  * @property PaginatorComponent $Paginator
  */
 class BrazaletesController extends AppController {
@@ -23,7 +23,7 @@ class BrazaletesController extends AppController {
      * @return void
      */
     public function index() {
-        $this->Bracelet->recursive = 0;
+        $this->Brazalete->recursive = 0;
         $this->set('bracelets', $this->Paginator->paginate());
     }
 
@@ -35,11 +35,11 @@ class BrazaletesController extends AppController {
      * @return void
      */
     public function view($id = null) {
-        if (!$this->Bracelet->exists($id)) {
+        if (!$this->Brazalete->exists($id)) {
             throw new NotFoundException(__('Invalid bracelet'));
         }
-        $options = array('conditions' => array('Bracelet.' . $this->Bracelet->primaryKey => $id));
-        $this->set('bracelet', $this->Bracelet->find('first', $options));
+        $options = array('conditions' => array('Brazalete.' . $this->Brazalete->primaryKey => $id));
+        $this->set('bracelet', $this->Brazalete->find('first', $options));
     }
 
     /**
@@ -49,12 +49,21 @@ class BrazaletesController extends AppController {
      */
     public function add() {
         if ($this->request->is('post')) {
-            $this->Bracelet->create();
-            if ($this->Bracelet->save($this->request->data)) {
-                $this->Session->setFlash(__('The bracelet has been saved.'));
-                return $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The bracelet could not be saved. Please, try again.'));
+            if ($this->request->data['Brazalete']['tipo_brazalete_id'] == 1) {
+                $this->request->data['Brazalete']['fecha'] = '2000-01-01';
+            }
+            $codigo = $this->request->data['Brazalete']['cod_barras'];
+            $id = $this->Brazalete->find('list', array('conditions' => array("Brazalete.cod_barras = '$codigo'"), 'fields' => array('Brazalete.id')));
+            if ($id == array()) {
+                $this->Brazalete->create();
+                if ($this->Brazalete->save($this->request->data)) {
+                    $this->Session->setFlash(__('El pasaporte ha sido creado.'));
+                    return $this->redirect(array('action' => 'add'));
+                } else {
+                    $this->Session->setFlash(__('El brazalete no pudo ser creado, por favor intente nuevamente.'));
+                }
+            }else{
+                $this->Session->setFlash(__('El código ya existe en la base de datos'));
             }
         }
         $this->loadModel('TipoBrazalete');
@@ -70,19 +79,19 @@ class BrazaletesController extends AppController {
      * @return void
      */
     public function edit($id = null) {
-        if (!$this->Bracelet->exists($id)) {
+        if (!$this->Brazalete->exists($id)) {
             throw new NotFoundException(__('Invalid bracelet'));
         }
         if ($this->request->is(array('post', 'put'))) {
-            if ($this->Bracelet->save($this->request->data)) {
+            if ($this->Brazalete->save($this->request->data)) {
                 $this->Session->setFlash(__('The bracelet has been saved.'));
                 return $this->redirect(array('action' => 'index'));
             } else {
                 $this->Session->setFlash(__('The bracelet could not be saved. Please, try again.'));
             }
         } else {
-            $options = array('conditions' => array('Bracelet.' . $this->Bracelet->primaryKey => $id));
-            $this->request->data = $this->Bracelet->find('first', $options);
+            $options = array('conditions' => array('Brazalete.' . $this->Brazalete->primaryKey => $id));
+            $this->request->data = $this->Brazalete->find('first', $options);
         }
     }
 
@@ -94,12 +103,12 @@ class BrazaletesController extends AppController {
      * @return void
      */
     public function delete($id = null) {
-        $this->Bracelet->id = $id;
-        if (!$this->Bracelet->exists()) {
+        $this->Brazalete->id = $id;
+        if (!$this->Brazalete->exists()) {
             throw new NotFoundException(__('Invalid bracelet'));
         }
         $this->request->allowMethod('post', 'delete');
-        if ($this->Bracelet->delete()) {
+        if ($this->Brazalete->delete()) {
             $this->Session->setFlash(__('The bracelet has been deleted.'));
         } else {
             $this->Session->setFlash(__('The bracelet could not be deleted. Please, try again.'));
