@@ -31,7 +31,7 @@
                     <td class="actions">
 
                         <?php echo $this->Html->link(__('Editar'), array('action' => 'edit', $torniquete['Torniquete']['id'])); ?>
-                        <?php echo $this->Form->postLink(__('Borrrar'), array('action' => 'delete', $torniquete['Torniquete']['id']), array(), __('Are you sure you want to delete # %s?', $torniquete['Torniquete']['id'])); ?>
+                        <?php //echo $this->Form->postLink(__('Borrrar'), array('action' => 'delete', $torniquete['Torniquete']['id']), array(), __('Are you sure you want to delete # %s?', $torniquete['Torniquete']['id'])); ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
