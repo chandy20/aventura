@@ -157,7 +157,11 @@ class UsersController extends AppController {
         $this->Acl->allow($group, 'controllers/Torniquetes/index');
         $this->Acl->allow($group, 'controllers/Torniquetes/bloqueo');        
         $this->Acl->allow($group, 'controllers/users/logout');
-
+        //permitir activacion de tarjetas
+        $group->id=4;
+        $this->Acl->deny($group, 'controllers');
+        $this->Acl->allow($group, 'controllers/Grupos/parque');
+        $this->Acl->allow($group, 'controllers/Brazaletes/activar');
 //      allow basic users to log out
         $this->Acl->allow($group, 'controllers/users/logout');
 
