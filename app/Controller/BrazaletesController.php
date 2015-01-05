@@ -52,7 +52,18 @@ class BrazaletesController extends AppController {
             if ($this->request->data['Brazalete']['tipo_brazalete_id'] == 1) {
                 $this->request->data['Brazalete']['fecha'] = '2000-01-01';
             }
-            $codigo = $this->request->data['Brazalete']['cod_barras'];
+
+            $codigo_inicio = $this->request->data['Brazalete']['cod_barras_inicio'];
+            $codigo_fin = $this->request->data['Brazalete']['cod_barras_fin'];
+            if ($codigo_inicio <= $codigo_fin) {
+                while ($codigo_fin > $codigo_inicio) {
+                    debug($codigo_inicio);
+                    $codigo_inicio += 1;
+                }
+                die;
+            } else {
+                //imprimir q el codigo inicial no puede ser mayor al codigo final
+            }
             $id = $this->Brazalete->find('list', array('conditions' => array("Brazalete.cod_barras = '$codigo'"), 'fields' => array('Brazalete.id')));
             if ($id == array()) {
                 $this->Brazalete->create();
@@ -62,7 +73,7 @@ class BrazaletesController extends AppController {
                 } else {
                     $this->Session->setFlash(__('El brazalete no pudo ser creado, por favor intente nuevamente.'));
                 }
-            }else{
+            } else {
                 $this->Session->setFlash(__('El código ya existe en la base de datos'));
             }
         }

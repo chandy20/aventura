@@ -13,7 +13,7 @@ echo $this->Html->css(array('jscal2', 'steel', 'border-radius'));
         ?>
         <img src="<?php echo $this->webroot . '/img/calendario.png' ?>"  id="selector" name="selector" style="cursor:pointer" />
         <br>
-        <label>Fecha inicial</label>
+        <label>Fecha final</label>
         <?php
         echo $this->Form->input('fecha2', array('label' => '', 'maxlength' => '15', 'readonly' => 'readonly', 'required' => 'true'));
         ?>
