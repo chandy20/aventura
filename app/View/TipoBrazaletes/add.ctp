@@ -1,17 +1,12 @@
-<div class="tipoBrazaletes form">
-<?php echo $this->Form->create('TipoBrazalete'); ?>
-	<fieldset>
-		<legend><?php echo __('Add Tipo Brazalete'); ?></legend>
-	<?php
-		echo $this->Form->input('nombre');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List Tipo Brazaletes'), array('action' => 'index')); ?></li>
-	</ul>
+<div class="tipoBrazaletes form" align="center">
+    <?php echo $this->Form->create('TipoBrazalete'); ?>
+    <fieldset>
+        <h1><legend><?php echo __('Crear Tipo de Pasaporte '); ?></legend></h1>
+        <br><br>
+        <?php
+        echo $this->Form->input('nombre', array('label' => 'Nombre ', 'required'));
+        ?>
+        <br>
+    </fieldset>
+    <?php echo $this->Form->end(__('Crear')); ?>
 </div>

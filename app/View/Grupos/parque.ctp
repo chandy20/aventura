@@ -87,7 +87,11 @@
             <div id="pasaporte" name="pasaporte" style="display:none">
                 <table>
                     <tr>
-                        <td align="center"><a href="<?= $this->Html->url(array("controller" => "Brazaletes", "action" => "add")) ?>"><img src="../app/webroot/img/pasaporte.png" width="100" height="120"></a></td>
+                        <td align="center"><a href="<?= $this->Html->url(array("controller" => "TipoBrazaletes", "action" => "index")) ?>"><img src="../app/webroot/img/pasaporte.png" width="100" height="120"></a></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td align="center"><a href="<?= $this->Html->url(array("controller" => "TipoBrazaletes", "action" => "add")) ?>"><img src="../app/webroot/img/pasaporte.png" width="100" height="120"></a></td>
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
@@ -102,6 +106,10 @@
                     </tr>
                     <tr>
                         <td align="center"><h2 style="cursor:pointer" id="pass"><a href="<?= $this->Html->url(array("controller" => "TipoBrazaletes", "action" => "index")) ?>">Tipos de Pasaporte</a></h2></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td align="center"><h2 style="cursor:pointer" id="pass"><a href="<?= $this->Html->url(array("controller" => "TipoBrazaletes", "action" => "add")) ?>">Crear Tipos de Pasaporte</a></h2></td>
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
