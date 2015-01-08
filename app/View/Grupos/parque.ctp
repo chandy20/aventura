@@ -29,7 +29,7 @@
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
-                        <td align="center"><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "index")) ?>"><img src="../app/webroot/img/door.png" "width="100" height="120"></a></td>
+                        <td align="center"><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "index")) ?>"><img src="../app/webroot/img/door.png" width="100" height="120"></a></td>
                     </tr>                
                     <tr>
                         <td align="center"><h2 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Locaciones", "action" => "add")) ?>">Crear Entrada</a></h2></td>
@@ -91,12 +91,20 @@
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
+                        <td align="center"><a href="<?= $this->Html->url(array("controller" => "Brazaletes", "action" => "add")) ?>"><img src="../app/webroot/img/pasaporte.png" width="100" height="120"></a></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
                         <td align="center"><a href="<?= $this->Html->url(array("controller" => "Brazaletes", "action" => "activar")) ?>"><img src="../app/webroot/img/pasaporte.png" width="100" height="120"></a></td>
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
                     </tr>
                     <tr>
+                        <td align="center"><h2 style="cursor:pointer" id="pass"><a href="<?= $this->Html->url(array("controller" => "TipoBrazaletes", "action" => "index")) ?>">Tipos de Pasaporte</a></h2></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
                         <td align="center"><h2 style="cursor:pointer" id="dor"><a href="<?= $this->Html->url(array("controller" => "Brazaletes", "action" => "add")) ?>">Crear Pasaporte</a></h2></td>
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -162,6 +170,11 @@
             document.getElementById('torni').style.display = 'none';
             document.getElementById('users').style.display = 'none';
         });
-
+        $("#pass").click(function(){
+            document.getElementById('pasaporte').style.display = 'block';
+            document.getElementById('access').style.display = 'none';
+            document.getElementById('torni').style.display = 'none';
+            document.getElementById('users').style.display = 'none';
+        });
     });
 </script>
