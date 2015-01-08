@@ -52,29 +52,54 @@ class BrazaletesController extends AppController {
             if ($this->request->data['Brazalete']['tipo_brazalete_id'] == 1) {
                 $this->request->data['Brazalete']['fecha'] = '2000-01-01';
             }
-
+            $duplicados = "";
             $codigo_inicio = $this->request->data['Brazalete']['cod_barras_inicio'];
+            $inicio = $codigo_inicio;
             $codigo_fin = $this->request->data['Brazalete']['cod_barras_fin'];
+            $fin = $codigo_fin;
+            $sw = 0;
             if ($codigo_inicio <= $codigo_fin) {
-                while ($codigo_fin > $codigo_inicio) {
-                    debug($codigo_inicio);
-                    $codigo_inicio += 1;
+                while ($codigo_fin >= $codigo_inicio) {
+                    //debug($codigo_inicio);
+                    $id = $this->Brazalete->find('list', array('conditions' => array("Brazalete.cod_barras = '$codigo_inicio'"), 'fields' => array('Brazalete.id')));
+                    if ($id == array()) {
+                        $this->Brazalete->create();
+                        $this->request->data['Brazalete']['cod_barras'] = $codigo_inicio;
+                        if ($this->Brazalete->save($this->request->data)) {
+                            if ($codigo_inicio == $codigo_fin) {
+                                $mensaje = "Pasaporte(s) $inicio - $fin creado(s) con éxito.";
+                                if ($duplicados != "") {
+                                    $mensaje .= ", los siguientes codigos han sido duplicados: \n $duplicados";
+                                }
+                                $this->Session->setFlash(__($mensaje));
+                                return $this->redirect(array('action' => 'add'));
+                            }
+                        } else {
+                            $sw = $sw + 1;
+                            if ($sw > 9) {
+                                $sw = 0;
+                                $duplicados .= ", $codigo_inicio \n";
+                            }
+                            $duplicados .= ", $codigo_inicio";
+//                            $this->Session->setFlash(__('El brazalete no pudo ser creado, por favor intentalo nuevamente.'));
+                        }
+                    } else {
+                        $sw = $sw + 1;
+                        if ($sw > 9) {
+                            $sw = 0;
+                            $duplicados .= ", $codigo_inicio \n";
+                        }
+                        $duplicados .= ", $codigo_inicio";
+                        $this->Session->setFlash(__('Código(s) ' . $duplicados . ' ya existe(n) en la base de datos'));
+                    }
+                    $codigo_inicio = $codigo_inicio + 1;
+                    while (strlen($codigo_inicio) < 12) {
+                        $codigo_inicio = '0' . $codigo_inicio;
+                    }
                 }
-                die;
+                //die;
             } else {
-                //imprimir q el codigo inicial no puede ser mayor al codigo final
-            }
-            $id = $this->Brazalete->find('list', array('conditions' => array("Brazalete.cod_barras = '$codigo'"), 'fields' => array('Brazalete.id')));
-            if ($id == array()) {
-                $this->Brazalete->create();
-                if ($this->Brazalete->save($this->request->data)) {
-                    $this->Session->setFlash(__('El pasaporte ha sido creado.'));
-                    return $this->redirect(array('action' => 'add'));
-                } else {
-                    $this->Session->setFlash(__('El brazalete no pudo ser creado, por favor intente nuevamente.'));
-                }
-            } else {
-                $this->Session->setFlash(__('El código ya existe en la base de datos'));
+                $this->Session->setFlash(__('El código inicial no puede ser mayor al código final, por favor intente nuevamente'));
             }
         }
         $this->loadModel('TipoBrazalete');
