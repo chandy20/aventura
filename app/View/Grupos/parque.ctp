@@ -103,6 +103,10 @@
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
+                        <td align="center"><a href="<?= $this->Html->url(array("controller" => "Brazaletes", "action" => "groupActive")) ?>"><img src="../app/webroot/img/pasaporte.png" width="100" height="120"></a></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
                     </tr>
                     <tr>
                         <td align="center"><h2 style="cursor:pointer" id="pass"><a href="<?= $this->Html->url(array("controller" => "TipoBrazaletes", "action" => "index")) ?>">Tipos de Pasaporte</a></h2></td>
@@ -118,6 +122,10 @@
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
                         <td align="center"><h2 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Brazaletes", "action" => "activar")) ?>">Activar Pasaporte</a></h2></a></td>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td align="center"><h2 style="cursor:pointer" id="to"><a href="<?= $this->Html->url(array("controller" => "Brazaletes", "action" => "groupActive")) ?>">Activar Grupo Pasaportes</a></h2></a></td>
                         <td>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
@@ -151,7 +159,7 @@
         $("#to").click(function() {
             document.getElementById('access').style.display = 'none';
             document.getElementById('torni').style.display = 'block';
-            document.getElementById('users').style.display = 'nome';
+            document.getElementById('users').style.display = 'none';
             document.getElementById('pasaporte').style.display = 'none';
         });
         $("#usu").click(function() {

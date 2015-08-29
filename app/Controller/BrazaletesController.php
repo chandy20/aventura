@@ -108,6 +108,74 @@ class BrazaletesController extends AppController {
     }
 
     /**
+     * groupActive method
+     *
+     * @throws NotFoundException
+     * @param 
+     * @return void
+     */
+    public function groupActive(){
+        
+        if ($this->request->is('post')) {
+            $duplicados = "";
+            $codigo_inicio = $this->request->data['Brazalete']['cod_barras_inicio'];
+            $inicio = $codigo_inicio;
+            $codigo_fin = $this->request->data['Brazalete']['cod_barras_fin'];
+            $fin = $codigo_fin;
+            $sw = 0;
+            if ($codigo_inicio <= $codigo_fin) {
+                while ($codigo_fin >= $codigo_inicio) {
+                    //debug($codigo_inicio);
+                    $id = $this->Brazalete->find('list', array('conditions' => array("Brazalete.cod_barras = '$codigo_inicio'"), 'fields' => array('Brazalete.id')));
+                    
+                    if ($id != array()) {
+                        
+                        $this->Session->setFlash('Pasaporte activado con exito.');
+                    } else {
+                        $this->Session->setFlash('Código no registrado en la base de datos.');
+                    }
+            
+                    if ($id == array()) {
+                        $fecha = date('Y-m-d');
+                        $this->Brazalete->query("UPDATE brazaletes SET fecha='$fecha' WHERE cod_barras = '$codigo_inicio'");
+                        if ($codigo_inicio == $codigo_fin) {
+                            $mensaje = "Activación de Pasaporte(s) $inicio - $fin Finalizada.";
+                            if ($duplicados != "") {
+                                $mensaje .= ", los siguientes codigos no estan creados, no pueden ser activados: \n $duplicados";
+                            }
+                            $this->Session->setFlash(__($mensaje));
+                            return $this->redirect(array('action' => 'groupActive'));
+                        }
+                        else {
+                            $sw = $sw + 1;
+                            if ($sw > 9) {
+                                $sw = 0;
+                                $duplicados .= ", $codigo_inicio \n";
+                            }
+                            $duplicados .= ", $codigo_inicio";
+//                            $this->Session->setFlash(__('El brazalete no pudo ser creado, por favor intentalo nuevamente.'));
+                        }
+                    } else {
+                        $sw = $sw + 1;
+                        if ($sw > 9) {
+                            $sw = 0;
+                            $duplicados .= ", $codigo_inicio \n";
+                        }
+                        $duplicados .= ", $codigo_inicio";
+                        $this->Session->setFlash(__('Código(s) ' . $duplicados . ' no existe(n) en la base de datos'));
+                    }
+                    $codigo_inicio = $codigo_inicio + 1;
+                    while (strlen($codigo_inicio) < 12) {
+                        $codigo_inicio = '0' . $codigo_inicio;
+                    }
+                }
+                //die;
+            } else {
+                $this->Session->setFlash(__('El código inicial no puede ser mayor al código final, por favor intente nuevamente'));
+            }
+        }
+    }
+    /**
      * edit method
      *
      * @throws NotFoundException
